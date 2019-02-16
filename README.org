@@ -1,0 +1,77 @@
+#+TITLE: Meson start scripts
+
+* Skeleton C++ project
+
+#+NAME: cpp_meson
+#+BEGIN_SRC meson
+Hello
+#+END_SRC
+A simple script to create a messon project skeleton
+
+#+BEGIN_SRC bash :noweb yes :tangle yes :tangle create_meson_cpp_skeleton_project :shebang "#!/bin/bash" :exports code :eval never
+
+#################
+# Parse command #
+#################
+
+set -e
+
+error=0
+force=0
+project_dir=""
+
+while [ "$1" != "" ]; do
+    case $1 in
+        -f )       force=1
+		   ;;
+	-* )       error=1
+                   ;;
+        ,* )       if [ "$project_dir" == "" ]; then 
+		      project_dir=$1 
+		  else 
+		      error=1 
+		  fi 
+    esac
+    shift
+done
+
+if [ $error == 1 ]; then
+    echo "Usage: $(basename $0) project_dir -f"
+    echo ""
+    echo " Create a directory 'project_dir' and populate it with some configuration files"
+    echo " By default never overwrite files, use -f to force overwriting"
+    exit 0
+fi
+
+project_name=$(basename "$project_dir")
+
+##########################
+# Creates root directory #
+##########################
+
+echo "Creates directory $project_dir" 
+mkdir -p "$project_dir"
+
+#############################
+# Creates setup dir & files #
+#############################
+
+echo "Creates directory $project_dir/src" 
+mkdir -p "$project_dir/src"
+
+#----------------
+
+current_file="$project_dir/meson.build"
+
+if [ "$force" -eq 1 ] || [ ! -f "$current_file" ]; then
+    echo "Creates file      $current_file" 
+    more > "$current_file" <<'//MY_CODE_STREAM' 
+<<cpp_meson>>
+//MY_CODE_STREAM
+else 
+    echo "File $current_file already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#----------------
+#+END_SRC
