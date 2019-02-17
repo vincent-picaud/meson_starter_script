@@ -1,8 +1,4 @@
 #!/bin/bash
-#################
-# Parse command #
-#################
-
 set -e
 
 ERROR=0
@@ -34,9 +30,7 @@ fi
 
 PROJECT_NAME=$(basename "$PROJECT_ROOT_DIRECTORY")
 
-##########################
-# Creates root directory #
-##########################
+#================================================================
 
 echo "Creates directory $PROJECT_ROOT_DIRECTORY" 
 mkdir -p "$PROJECT_ROOT_DIRECTORY"
@@ -69,11 +63,7 @@ else
     exit 1
 fi
 
-#----------------
-
-#####################
-# Creates setup src #
-#####################
+#================================================================
 
 echo "Creates directory $PROJECT_ROOT_DIRECTORY/src" 
 mkdir -p "$PROJECT_ROOT_DIRECTORY/src"
@@ -95,4 +85,41 @@ else
     exit 1
 fi
 
+#================================================================
+
+echo "Creates directory $PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME" 
+mkdir -p "$PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME"
+
 #----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME/meson.build"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Creates file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+inc = include_directories('.')
+
+subdir('@ProjectSkeleton@')
+//MY_CODE_STREAM
+#    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME/hello.hpp"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Creates file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+#include<string>
+
+std::string hello();
+//MY_CODE_STREAM
+#    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
