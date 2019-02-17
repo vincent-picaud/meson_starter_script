@@ -2,11 +2,33 @@
 
 * Skeleton C++ project
 
+A simple script to create a messon project skeleton
+
 #+NAME: cpp_meson
 #+BEGIN_SRC meson
-Hello
+project('@ProjectSkeleton@', 'cpp',
+	version : '0.0.1',
+	default_options : ['cpp_std=c++17'])
+
+KissCore_proj = subproject('KissCore')
+KissCore_dep = KissCore_proj.get_variable('KissCore_dep')
+
+gtest_proj = subproject('gtest')
+gtest_dep = gtest_proj.get_variable('gtest_main_dep')
+
+subdir('src')
+subdir('test')
+subdir('examples')
+subdir('doc')
 #+END_SRC
-A simple script to create a messon project skeleton
+
+#+NAME: cpp_meson_src
+#+BEGIN_SRC meson
+inc = include_directories('.')
+
+subdir('@ProjectSkeleton@')
+#+END_SRC
+
 
 #+BEGIN_SRC bash :noweb yes :tangle yes :tangle create_meson_cpp_skeleton_project :shebang "#!/bin/bash" :exports code :eval never
 
@@ -16,62 +38,81 @@ A simple script to create a messon project skeleton
 
 set -e
 
-error=0
-force=0
-project_dir=""
+ERROR=0
+FORCE=0
+PROJECT_ROOT_DIRECTORY=""
 
 while [ "$1" != "" ]; do
     case $1 in
-        -f )       force=1
+        -f )       FORCE=1
 		   ;;
-	-* )       error=1
+	-* )       ERROR=1
                    ;;
-        ,* )       if [ "$project_dir" == "" ]; then 
-		      project_dir=$1 
+        ,* )       if [ "$PROJECT_ROOT_DIRECTORY" == "" ]; then 
+		      PROJECT_ROOT_DIRECTORY=$1 
 		  else 
-		      error=1 
+		      ERROR=1 
 		  fi 
     esac
     shift
 done
 
-if [ $error == 1 ]; then
-    echo "Usage: $(basename $0) project_dir -f"
+if [ $ERROR == 1 ]; then
+    echo "Usage: $(basename $0) PROJECT_ROOT_DIRECTORY -f"
     echo ""
     echo " Create a directory 'project_dir' and populate it with some configuration files"
     echo " By default never overwrite files, use -f to force overwriting"
     exit 0
 fi
 
-project_name=$(basename "$project_dir")
+PROJECT_NAME=$(basename "$PROJECT_ROOT_DIRECTORY")
 
 ##########################
 # Creates root directory #
 ##########################
 
-echo "Creates directory $project_dir" 
-mkdir -p "$project_dir"
-
-#############################
-# Creates setup dir & files #
-#############################
-
-echo "Creates directory $project_dir/src" 
-mkdir -p "$project_dir/src"
+echo "Creates directory $PROJECT_ROOT_DIRECTORY" 
+mkdir -p "$PROJECT_ROOT_DIRECTORY"
 
 #----------------
 
-current_file="$project_dir/meson.build"
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/meson.build"
 
-if [ "$force" -eq 1 ] || [ ! -f "$current_file" ]; then
-    echo "Creates file      $current_file" 
-    more > "$current_file" <<'//MY_CODE_STREAM' 
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Creates file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 <<cpp_meson>>
 //MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
 else 
-    echo "File $current_file already exists, aborted! (you can use -f to force overwrite)" 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
     exit 1
 fi
 
 #----------------
+
+#####################
+# Creates setup src #
+#####################
+
+echo "Creates directory $PROJECT_ROOT_DIRECTORY/src" 
+mkdir -p "$PROJECT_ROOT_DIRECTORY/src"
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/src/meson.build"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Creates file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+<<cpp_meson_src>>
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#----------------
+
 #+END_SRC
