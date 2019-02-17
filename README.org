@@ -18,7 +18,7 @@ gtest_dep = gtest_proj.get_variable('gtest_main_dep')
 
 subdir('src')
 subdir('test')
-subdir('examples')
+subdir('bin)
 subdir('doc')
 #+END_SRC
 
@@ -29,21 +29,31 @@ inc = include_directories('.')
 subdir('@ProjectSkeleton@')
 #+END_SRC
 
-** =src/project= 
-
-#+NAME: cpp_meson_src_project 
+#+NAME: cpp_meson_src_project
 #+BEGIN_SRC meson
-inc = include_directories('.')
+@ProjectSkeleton@_headers = ['hello.hpp']
+@ProjectSkeleton@_sources = ['hello.cpp']
 
-subdir('@ProjectSkeleton@')
+@ProjectSkeleton@_lib = library('@ProjectSkeleton@',
+			sources: [@ProjectSkeleton@_headers,@ProjectSkeleton@_sources])
+
+@ProjectSkeleton@_dep = declare_dependency(include_directories : inc,
+				   link_with : @ProjectSkeleton@_lib)
+
+install_headers(@ProjectSkeleton@_headers,
+		subdir : '@ProjectSkeleton@')
+
 #+END_SRC
-
 
 #+NAME: cpp_meson_src_project_hello_hpp
 #+BEGIN_SRC cpp :eval never
-#include<string>
+#include <string>
 
-std::string hello();
+namespace @ProjectSkeleton@ {
+
+    std::string hello();
+    
+}
 #+END_SRC
 
 
@@ -133,7 +143,7 @@ if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 <<cpp_meson_src_project>>
 //MY_CODE_STREAM
-#    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
 else 
     echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
     exit 1
@@ -148,7 +158,7 @@ if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 <<cpp_meson_src_project_hello_hpp>>
 //MY_CODE_STREAM
-#    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
 else 
     echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
     exit 1

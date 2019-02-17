@@ -54,7 +54,7 @@ gtest_dep = gtest_proj.get_variable('gtest_main_dep')
 
 subdir('src')
 subdir('test')
-subdir('examples')
+subdir('bin)
 subdir('doc')
 //MY_CODE_STREAM
     sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
@@ -97,11 +97,20 @@ CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME/meson.build"
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
     echo "Creates file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
-inc = include_directories('.')
+@ProjectSkeleton@_headers = ['hello.hpp']
+@ProjectSkeleton@_sources = ['hello.cpp']
 
-subdir('@ProjectSkeleton@')
+@ProjectSkeleton@_lib = library('@ProjectSkeleton@',
+			sources: [@ProjectSkeleton@_headers,@ProjectSkeleton@_sources])
+
+@ProjectSkeleton@_dep = declare_dependency(include_directories : inc,
+				   link_with : @ProjectSkeleton@_lib)
+
+install_headers(@ProjectSkeleton@_headers,
+		subdir : '@ProjectSkeleton@')
+
 //MY_CODE_STREAM
-#    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
 else 
     echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
     exit 1
@@ -114,11 +123,15 @@ CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME/hello.hpp"
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
     echo "Creates file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
-#include<string>
+#include <string>
 
-std::string hello();
+namespace @ProjectSkeleton@ {
+
+    std::string hello();
+    
+}
 //MY_CODE_STREAM
-#    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
 else 
     echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
     exit 1
