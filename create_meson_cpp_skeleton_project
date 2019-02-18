@@ -188,3 +188,54 @@ else
     echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
     exit 1
 fi
+
+#================================================================
+
+echo "Creates directory $PROJECT_ROOT_DIRECTORY/test" 
+mkdir -p "$PROJECT_ROOT_DIRECTORY/test"
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/test/meson.build"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Creates file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+test_array = [['hello_test','hello_exe','hello.cpp']]
+
+foreach test : test_array
+  test(test.get(0),
+       executable(test.get(1),
+		  test.get(2),
+		  dependencies
+ 		  : [ @ProjectSkeleton@_dep, gtest_dep ]))
+endforeach
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/test/hello.cpp"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Creates file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+#include "@ProjectSkeleton@/hello.hpp"
+#include <gtest/gtest.h>
+
+using namespace @ProjectSkeleton@;
+
+TEST(Hello, demo)
+{
+  ASSERT_EQ(hello(),"Hello @ProjectSkeleton@");
+}
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi

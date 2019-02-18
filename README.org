@@ -83,6 +83,32 @@ patch_filename = gtest-1.8.0-5-wrap.zip
 patch_hash = 7eeaede4aa2610a403313b74e04baf91ccfbaef03203d8f56312e22df1834ec5
 #+END_SRC
 
+#+NAME: cpp_meson_test
+#+BEGIN_SRC meson
+test_array = [['hello_test','hello_exe','hello.cpp']]
+
+foreach test : test_array
+  test(test.get(0),
+       executable(test.get(1),
+		  test.get(2),
+		  dependencies
+ 		  : [ @ProjectSkeleton@_dep, gtest_dep ]))
+endforeach
+#+END_SRC
+
+#+NAME: cpp_meson_test_hello_cpp
+#+BEGIN_SRC meson
+#include "@ProjectSkeleton@/hello.hpp"
+#include <gtest/gtest.h>
+
+using namespace @ProjectSkeleton@;
+
+TEST(Hello, demo)
+{
+  ASSERT_EQ(hello(),"Hello @ProjectSkeleton@");
+}
+#+END_SRC
+
 #+BEGIN_SRC bash :noweb yes :tangle yes :tangle create_meson_cpp_skeleton_project :shebang "#!/bin/bash" :exports code :eval never
 set -e
 
@@ -225,4 +251,38 @@ else
     exit 1
 fi
 
+#================================================================
+
+echo "Creates directory $PROJECT_ROOT_DIRECTORY/test" 
+mkdir -p "$PROJECT_ROOT_DIRECTORY/test"
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/test/meson.build"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Creates file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+<<cpp_meson_test>>
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/test/hello.cpp"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Creates file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+<<cpp_meson_test_hello_cpp>>
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
 #+END_SRC
