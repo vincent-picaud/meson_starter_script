@@ -61,7 +61,7 @@ namespace @ProjectSkeleton@ {
 namespace @ProjectSkeleton@ {
 
   std::string hello() {
-    return "hello @ProjectSkeleton@";
+    return "Hello @ProjectSkeleton@";
   };
     
 }
@@ -117,7 +117,7 @@ hello_exe = executable('hello',
 #+NAME: cpp_meson_bin_hello_cpp
 #+BEGIN_SRC cpp
 #include "@ProjectSkeleton@/hello.hpp"
-#incldue <iostream>
+#include <iostream>
 
 using namespace @ProjectSkeleton@;
 

@@ -268,7 +268,7 @@ if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
     echo "Creates file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 #include "@ProjectSkeleton@/hello.hpp"
-#incldue <iostream>
+#include <iostream>
 
 using namespace @ProjectSkeleton@;
 
