@@ -2660,7 +2660,7 @@ DOT_CLEANUP            = YES
 
 #+END_SRC
 
-#+BEGIN_SRC bash :noweb yes :tangle yes :tangle create_meson_cpp_skeleton_project :shebang "#!/bin/bash" 
+#+BEGIN_SRC bash :noweb yes :tangle create_meson_cpp_skeleton_project :shebang "#!/bin/bash" 
 set -e
 
 ERROR=0
@@ -2694,7 +2694,7 @@ PROJECT_NAME=$(basename "$PROJECT_ROOT_DIRECTORY")
 
 #================================================================
 
-echo "Creates directory $PROJECT_ROOT_DIRECTORY" 
+echo "Create directory $PROJECT_ROOT_DIRECTORY" 
 mkdir -p "$PROJECT_ROOT_DIRECTORY"
 
 #----------------
@@ -2702,7 +2702,7 @@ mkdir -p "$PROJECT_ROOT_DIRECTORY"
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/meson.build"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 <<cpp_meson>>
 //MY_CODE_STREAM
@@ -2714,7 +2714,7 @@ fi
 
 #================================================================
 
-echo "Creates directory $PROJECT_ROOT_DIRECTORY/src" 
+echo "Create directory $PROJECT_ROOT_DIRECTORY/src" 
 mkdir -p "$PROJECT_ROOT_DIRECTORY/src"
 
 #----------------
@@ -2722,7 +2722,7 @@ mkdir -p "$PROJECT_ROOT_DIRECTORY/src"
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/src/meson.build"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 <<cpp_meson_src>>
 //MY_CODE_STREAM
@@ -2734,7 +2734,7 @@ fi
 
 #================================================================
 
-echo "Creates directory $PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME" 
+echo "Create directory $PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME" 
 mkdir -p "$PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME"
 
 #----------------
@@ -2742,7 +2742,7 @@ mkdir -p "$PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME"
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME/meson.build"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 <<cpp_meson_src_project>>
 //MY_CODE_STREAM
@@ -2757,7 +2757,7 @@ fi
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME/hello.hpp"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 <<cpp_meson_src_project_hello_hpp>>
 //MY_CODE_STREAM
@@ -2772,7 +2772,7 @@ fi
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME/hello.cpp"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 <<cpp_meson_src_project_hello_cpp>>
 //MY_CODE_STREAM
@@ -2784,7 +2784,7 @@ fi
 
 #================================================================
 
-echo "Creates directory $PROJECT_ROOT_DIRECTORY/subprojects" 
+echo "Create directory $PROJECT_ROOT_DIRECTORY/subprojects" 
 mkdir -p "$PROJECT_ROOT_DIRECTORY/subprojects"
 
 #----------------
@@ -2792,7 +2792,7 @@ mkdir -p "$PROJECT_ROOT_DIRECTORY/subprojects"
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/subprojects/gtest.wrap"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 <<cpp_meson_subprojects_gtest>>
 //MY_CODE_STREAM
@@ -2804,7 +2804,7 @@ fi
 
 #================================================================
 
-echo "Creates directory $PROJECT_ROOT_DIRECTORY/test" 
+echo "Create directory $PROJECT_ROOT_DIRECTORY/test" 
 mkdir -p "$PROJECT_ROOT_DIRECTORY/test"
 
 #----------------
@@ -2812,7 +2812,7 @@ mkdir -p "$PROJECT_ROOT_DIRECTORY/test"
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/test/meson.build"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 <<cpp_meson_test>>
 //MY_CODE_STREAM
@@ -2827,7 +2827,7 @@ fi
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/test/hello.cpp"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 <<cpp_meson_test_hello_cpp>>
 //MY_CODE_STREAM
@@ -2839,7 +2839,7 @@ fi
 
 #================================================================
 
-echo "Creates directory $PROJECT_ROOT_DIRECTORY/bin" 
+echo "Create directory $PROJECT_ROOT_DIRECTORY/bin" 
 mkdir -p "$PROJECT_ROOT_DIRECTORY/bin"
 
 #----------------
@@ -2847,7 +2847,7 @@ mkdir -p "$PROJECT_ROOT_DIRECTORY/bin"
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/bin/meson.build"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 <<cpp_meson_bin>>
 //MY_CODE_STREAM
@@ -2862,7 +2862,7 @@ fi
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/bin/hello.cpp"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 <<cpp_meson_bin_hello_cpp>>
 //MY_CODE_STREAM
@@ -2874,7 +2874,7 @@ fi
 
 #================================================================
 
-echo "Creates directory $PROJECT_ROOT_DIRECTORY/examples" 
+echo "Create directory $PROJECT_ROOT_DIRECTORY/examples" 
 mkdir -p "$PROJECT_ROOT_DIRECTORY/examples"
 
 #----------------
@@ -2882,7 +2882,7 @@ mkdir -p "$PROJECT_ROOT_DIRECTORY/examples"
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/examples/meson.build"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 <<cpp_meson_examples>>
 //MY_CODE_STREAM
@@ -2897,7 +2897,7 @@ fi
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/examples/hello.cpp"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 <<cpp_meson_examples_hello_cpp>>
 //MY_CODE_STREAM
@@ -2909,9 +2909,9 @@ fi
 
 #================================================================
 
-echo "Creates directory $PROJECT_ROOT_DIRECTORY/doc" 
+echo "Create directory $PROJECT_ROOT_DIRECTORY/doc" 
 mkdir -p "$PROJECT_ROOT_DIRECTORY/doc"
-echo "Creates directory $PROJECT_ROOT_DIRECTORY/doc/figures" 
+echo "Create directory $PROJECT_ROOT_DIRECTORY/doc/figures" 
 mkdir -p "$PROJECT_ROOT_DIRECTORY/doc/figures"
 
 #----------------
@@ -2919,7 +2919,7 @@ mkdir -p "$PROJECT_ROOT_DIRECTORY/doc/figures"
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/doc/meson.build"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 <<cpp_meson_doc>>
 //MY_CODE_STREAM
@@ -2934,7 +2934,7 @@ fi
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/doc/Doxyfile.in"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 <<cpp_meson_doc_doxyfile>>
 //MY_CODE_STREAM
@@ -2949,7 +2949,7 @@ fi
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/doc/bibliography.bib"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 <<cpp_meson_doc_bibtex>>
 //MY_CODE_STREAM
@@ -2961,3 +2961,5 @@ fi
 #+END_SRC
 
 #+RESULTS:
+
+

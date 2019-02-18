@@ -32,7 +32,7 @@ PROJECT_NAME=$(basename "$PROJECT_ROOT_DIRECTORY")
 
 #================================================================
 
-echo "Creates directory $PROJECT_ROOT_DIRECTORY" 
+echo "Create directory $PROJECT_ROOT_DIRECTORY" 
 mkdir -p "$PROJECT_ROOT_DIRECTORY"
 
 #----------------
@@ -40,7 +40,7 @@ mkdir -p "$PROJECT_ROOT_DIRECTORY"
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/meson.build"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 project('@ProjectSkeleton@', 'cpp',
 	version : '0.0.1',
@@ -63,7 +63,7 @@ fi
 
 #================================================================
 
-echo "Creates directory $PROJECT_ROOT_DIRECTORY/src" 
+echo "Create directory $PROJECT_ROOT_DIRECTORY/src" 
 mkdir -p "$PROJECT_ROOT_DIRECTORY/src"
 
 #----------------
@@ -71,7 +71,7 @@ mkdir -p "$PROJECT_ROOT_DIRECTORY/src"
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/src/meson.build"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 inc = include_directories('.')
 
@@ -85,7 +85,7 @@ fi
 
 #================================================================
 
-echo "Creates directory $PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME" 
+echo "Create directory $PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME" 
 mkdir -p "$PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME"
 
 #----------------
@@ -93,7 +93,7 @@ mkdir -p "$PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME"
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME/meson.build"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 @ProjectSkeleton@_headers = ['hello.hpp']
 @ProjectSkeleton@_sources = ['hello.cpp']
@@ -120,7 +120,7 @@ fi
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME/hello.hpp"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 /// @file
 /// @brief Hello lib file
@@ -132,7 +132,7 @@ namespace @ProjectSkeleton@ {
   ///
   /// A bibtex reference example @cite pakkanen_meson_build_system
   ///
-  /// Usage example @example hello.cpp
+  /// Usage example @include hello.cpp
   std::string hello();
     
 }
@@ -148,7 +148,7 @@ fi
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME/hello.cpp"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 #include "hello.hpp"
 
@@ -168,7 +168,7 @@ fi
 
 #================================================================
 
-echo "Creates directory $PROJECT_ROOT_DIRECTORY/subprojects" 
+echo "Create directory $PROJECT_ROOT_DIRECTORY/subprojects" 
 mkdir -p "$PROJECT_ROOT_DIRECTORY/subprojects"
 
 #----------------
@@ -176,7 +176,7 @@ mkdir -p "$PROJECT_ROOT_DIRECTORY/subprojects"
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/subprojects/gtest.wrap"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 [wrap-file]
 directory = googletest-release-1.8.0
@@ -197,7 +197,7 @@ fi
 
 #================================================================
 
-echo "Creates directory $PROJECT_ROOT_DIRECTORY/test" 
+echo "Create directory $PROJECT_ROOT_DIRECTORY/test" 
 mkdir -p "$PROJECT_ROOT_DIRECTORY/test"
 
 #----------------
@@ -205,7 +205,7 @@ mkdir -p "$PROJECT_ROOT_DIRECTORY/test"
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/test/meson.build"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 test_array = [['hello_test','hello_exe','hello.cpp']]
 
@@ -228,7 +228,7 @@ fi
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/test/hello.cpp"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 #include "@ProjectSkeleton@/hello.hpp"
 #include <gtest/gtest.h>
@@ -248,7 +248,7 @@ fi
 
 #================================================================
 
-echo "Creates directory $PROJECT_ROOT_DIRECTORY/bin" 
+echo "Create directory $PROJECT_ROOT_DIRECTORY/bin" 
 mkdir -p "$PROJECT_ROOT_DIRECTORY/bin"
 
 #----------------
@@ -256,7 +256,7 @@ mkdir -p "$PROJECT_ROOT_DIRECTORY/bin"
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/bin/meson.build"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 hello_exe = executable('hello',
 		       'hello.cpp',
@@ -274,7 +274,7 @@ fi
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/bin/hello.cpp"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 /// @file
 /// @brief Hello executable file
@@ -296,7 +296,7 @@ fi
 
 #================================================================
 
-echo "Creates directory $PROJECT_ROOT_DIRECTORY/examples" 
+echo "Create directory $PROJECT_ROOT_DIRECTORY/examples" 
 mkdir -p "$PROJECT_ROOT_DIRECTORY/examples"
 
 #----------------
@@ -304,7 +304,7 @@ mkdir -p "$PROJECT_ROOT_DIRECTORY/examples"
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/examples/meson.build"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 hello_exe = executable('hello',
 		       'hello.cpp',
@@ -321,7 +321,7 @@ fi
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/examples/hello.cpp"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 /// @file
 /// @brief Hello example file
@@ -330,7 +330,6 @@ if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
 
 using namespace @ProjectSkeleton@;
 
-/// This is an example of how to use the @func hello() function
 int main()
 {
   std::cout << hello() << std::endl;
@@ -344,9 +343,9 @@ fi
 
 #================================================================
 
-echo "Creates directory $PROJECT_ROOT_DIRECTORY/doc" 
+echo "Create directory $PROJECT_ROOT_DIRECTORY/doc" 
 mkdir -p "$PROJECT_ROOT_DIRECTORY/doc"
-echo "Creates directory $PROJECT_ROOT_DIRECTORY/doc/figures" 
+echo "Create directory $PROJECT_ROOT_DIRECTORY/doc/figures" 
 mkdir -p "$PROJECT_ROOT_DIRECTORY/doc/figures"
 
 #----------------
@@ -354,7 +353,7 @@ mkdir -p "$PROJECT_ROOT_DIRECTORY/doc/figures"
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/doc/meson.build"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 doxygen = find_program('doxygen', required : false)
 
@@ -404,7 +403,7 @@ fi
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/doc/Doxyfile.in"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 # Doxyfile 1.8.13
 
@@ -2851,7 +2850,7 @@ fi
 CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/doc/bibliography.bib"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Creates file      $CURRENT_FILE" 
+    echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 @manual{pakkanen_meson_build_system,
   author =	 "Jussi Pakkanen",
