@@ -52,6 +52,7 @@ gtest_dep = gtest_proj.get_variable('gtest_main_dep')
 subdir('src')
 subdir('test')
 subdir('bin')
+subdir('examples')
 subdir('doc')
 //MY_CODE_STREAM
     sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
@@ -98,13 +99,14 @@ if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
 @ProjectSkeleton@_sources = ['hello.cpp']
 
 @ProjectSkeleton@_lib = library('@ProjectSkeleton@',
-			sources: [@ProjectSkeleton@_headers,@ProjectSkeleton@_sources])
+				install : true,
+				sources: [@ProjectSkeleton@_headers,@ProjectSkeleton@_sources])
 
 @ProjectSkeleton@_dep = declare_dependency(include_directories : inc,
-				   link_with : @ProjectSkeleton@_lib)
+					   link_with : @ProjectSkeleton@_lib)
 
 install_headers(@ProjectSkeleton@_headers,
-		subdir : '@ProjectSkeleton@')
+		 subdir : '@ProjectSkeleton@')
 
 //MY_CODE_STREAM
     sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
@@ -120,11 +122,17 @@ CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME/hello.hpp"
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
     echo "Creates file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+/// @file
+/// @brief Hello lib file
 #include <string>
 
 namespace @ProjectSkeleton@ {
 
-  //! @brief hello function 
+  /// @brief A function 
+  ///
+  /// A bibtex reference example @cite pakkanen_meson_build_system
+  ///
+  /// Usage example @example hello.cpp
   std::string hello();
     
 }
@@ -147,7 +155,7 @@ if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
 namespace @ProjectSkeleton@ {
 
   std::string hello() {
-    return "hello @ProjectSkeleton@";
+    return "Hello @ProjectSkeleton@";
   };
     
 }
@@ -252,6 +260,7 @@ if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 hello_exe = executable('hello',
 		       'hello.cpp',
+		       install : true,
 		       dependencies : [@ProjectSkeleton@_dep])
 //MY_CODE_STREAM
     sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
@@ -267,6 +276,8 @@ CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/bin/hello.cpp"
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
     echo "Creates file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+/// @file
+/// @brief Hello executable file
 #include "@ProjectSkeleton@/hello.hpp"
 #include <iostream>
 
@@ -285,8 +296,58 @@ fi
 
 #================================================================
 
+echo "Creates directory $PROJECT_ROOT_DIRECTORY/examples" 
+mkdir -p "$PROJECT_ROOT_DIRECTORY/examples"
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/examples/meson.build"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Creates file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+hello_exe = executable('hello',
+		       'hello.cpp',
+		       dependencies : [@ProjectSkeleton@_dep])
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/examples/hello.cpp"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Creates file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+/// @file
+/// @brief Hello example file
+#include "@ProjectSkeleton@/hello.hpp"
+#include <iostream>
+
+using namespace @ProjectSkeleton@;
+
+/// This is an example of how to use the @func hello() function
+int main()
+{
+  std::cout << hello() << std::endl;
+}
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#================================================================
+
 echo "Creates directory $PROJECT_ROOT_DIRECTORY/doc" 
 mkdir -p "$PROJECT_ROOT_DIRECTORY/doc"
+echo "Creates directory $PROJECT_ROOT_DIRECTORY/doc/figures" 
+mkdir -p "$PROJECT_ROOT_DIRECTORY/doc/figures"
 
 #----------------
 
@@ -311,7 +372,11 @@ else
 endif
 
 cdata.set('PROJECT_NAME',meson.project_name())
-cdata.set('TOP_SRCDIR', join_paths(meson.source_root(),'src',meson.project_name()))
+cdata.set('PROJECT_SRCDIR', join_paths(meson.source_root(),'src',meson.project_name()))
+cdata.set('PROJECT_BINDIR', join_paths(meson.source_root(),'bin'))
+cdata.set('PROJECT_EXAMPLESDIR', join_paths(meson.source_root(),'examples'))
+cdata.set('PROJECT_DOCDIR', join_paths(meson.source_root(),'doc'))
+cdata.set('PROJECT_TESTDIR', join_paths(meson.source_root(),'test'))
 
 doxyfile = configure_file(input: 'Doxyfile.in',
                           output: 'Doxyfile',
@@ -1056,7 +1121,7 @@ LAYOUT_FILE            =
 # LATEX_BIB_STYLE. To use this feature you need bibtex and perl available in the
 # search path. See also \cite for info how to create references.
 
-CITE_BIB_FILES         =
+CITE_BIB_FILES         = "@PROJECT_DOCDIR@/bibliography.bib"
 
 #---------------------------------------------------------------------------
 # Configuration options related to warning and progress messages
@@ -1133,7 +1198,8 @@ WARN_LOGFILE           =
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = "@TOP_SRCDIR@"
+INPUT                  = "@PROJECT_SRCDIR@" \
+                         "@PROJECT_BINDIR@"
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -1164,7 +1230,7 @@ FILE_PATTERNS          = *.cpp *.hpp
 # be searched for input files as well.
 # The default value is: NO.
 
-RECURSIVE              = NO
+RECURSIVE              = YES
 
 # The EXCLUDE tag can be used to specify files and/or directories that should be
 # excluded from the INPUT source files. This way you can easily exclude a
@@ -1206,27 +1272,27 @@ EXCLUDE_SYMBOLS        =
 # that contain example code fragments that are included (see the \include
 # command).
 
-EXAMPLE_PATH           =
+EXAMPLE_PATH           = "@PROJECT_EXAMPLESDIR@"
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp and
 # *.h) to filter out the source-files in the directories. If left blank all
 # files are included.
 
-EXAMPLE_PATTERNS       = *
+EXAMPLE_PATTERNS       = *.cpp 
 
 # If the EXAMPLE_RECURSIVE tag is set to YES then subdirectories will be
 # searched for input files to be used with the \include or \dontinclude commands
 # irrespective of the value of the RECURSIVE tag.
 # The default value is: NO.
 
-EXAMPLE_RECURSIVE      = NO
+EXAMPLE_RECURSIVE      = YES
 
 # The IMAGE_PATH tag can be used to specify one or more files or directories
 # that contain images that are to be included in the documentation (see the
 # \image command).
 
-IMAGE_PATH             =
+IMAGE_PATH             = "@PROJECT_DOCDIR@/figures"
 
 # The INPUT_FILTER tag can be used to specify a program that doxygen should
 # invoke to filter for each input file. Doxygen will invoke the filter program
@@ -2362,7 +2428,8 @@ SEARCH_INCLUDES        = YES
 # preprocessor.
 # This tag requires that the tag SEARCH_INCLUDES is set to YES.
 
-INCLUDE_PATH           = "@TOP_SRCDIR@"
+INCLUDE_PATH           = "@PROJECT_SRCDIR@" \
+                         "@PROJECT_BINDIR@"
 
 # You can use the INCLUDE_FILE_PATTERNS tag to specify one or more wildcard
 # patterns (like *.h and *.hpp) to filter out the header-files in the
@@ -2380,7 +2447,7 @@ INCLUDE_FILE_PATTERNS  =
 # recursively expanded use the := operator instead of the = operator.
 # This tag requires that the tag ENABLE_PREPROCESSING is set to YES.
 
-PREDEFINED             =
+PREDEFINED             = DOXYGEN_DOC
 
 # If the MACRO_EXPANSION and EXPAND_ONLY_PREDEF tags are set to YES then this
 # tag can be used to specify a list of macro names that should be expanded. The
@@ -2591,7 +2658,7 @@ TEMPLATE_RELATIONS     = NO
 # The default value is: YES.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-INCLUDE_GRAPH          = YES
+INCLUDE_GRAPH          = NO
 
 # If the INCLUDED_BY_GRAPH, ENABLE_PREPROCESSING and SEARCH_INCLUDES tags are
 # set to YES then doxygen will generate a graph for each documented file showing
@@ -2600,7 +2667,7 @@ INCLUDE_GRAPH          = YES
 # The default value is: YES.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-INCLUDED_BY_GRAPH      = YES
+INCLUDED_BY_GRAPH      = NO
 
 # If the CALL_GRAPH tag is set to YES then doxygen will generate a call
 # dependency graph for every global function or class method.
@@ -2615,7 +2682,7 @@ INCLUDED_BY_GRAPH      = YES
 CALL_GRAPH             = NO
 
 # If the CALLER_GRAPH tag is set to YES then doxygen will generate a caller
-# dependency graph for every global function or class method.
+y# dependency graph for every global function or class method.
 #
 # Note that enabling this option will significantly increase the time of a run.
 # So in most cases it will be better to enable caller graphs for selected
@@ -2631,7 +2698,7 @@ CALLER_GRAPH           = NO
 # The default value is: YES.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-GRAPHICAL_HIERARCHY    = YES
+GRAPHICAL_HIERARCHY    = NO
 
 # If the DIRECTORY_GRAPH tag is set to YES then doxygen will show the
 # dependencies a directory has on other directories in a graphical way. The
@@ -2640,7 +2707,7 @@ GRAPHICAL_HIERARCHY    = YES
 # The default value is: YES.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-DIRECTORY_GRAPH        = YES
+DIRECTORY_GRAPH        = NO
 
 # The DOT_IMAGE_FORMAT tag can be used to set the image format of the images
 # generated by dot. For an explanation of the image formats see the section
@@ -2771,6 +2838,26 @@ GENERATE_LEGEND        = YES
 # This tag requires that the tag HAVE_DOT is set to YES.
 
 DOT_CLEANUP            = YES
+
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/doc/bibliography.bib"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Creates file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+@manual{pakkanen_meson_build_system,
+  author =	 "Jussi Pakkanen",
+  title =	 "The Meson Build System",
+  url =		 "https://mesonbuild.com/Getting-meson.html",
+}
 
 //MY_CODE_STREAM
     sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
