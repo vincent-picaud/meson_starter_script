@@ -109,6 +109,26 @@ TEST(Hello, demo)
 }
 #+END_SRC
 
+#+NAME: cpp_meson_bin 
+#+BEGIN_SRC meson
+hello_exe = executable('hello',
+		       'hello.cpp',
+		       dependencies : [@Project_Skeleton@_dep])
+#+END_SRC
+
+#+NAME: cpp_meson_bin_hello_cpp
+#+BEGIN_SRC cpp
+#include "@ProjectSkeleton@/hello.hpp"
+#incldue <iostream>
+
+using namespace @ProjectSkeleton@;
+
+int main()
+{
+  std::cout << hello() << std::endl;
+}
+#+END_SRC
+
 #+BEGIN_SRC bash :noweb yes :tangle yes :tangle create_meson_cpp_skeleton_project :shebang "#!/bin/bash" :exports code :eval never
 set -e
 
@@ -279,6 +299,41 @@ if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
     echo "Creates file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 <<cpp_meson_test_hello_cpp>>
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#================================================================
+
+echo "Creates directory $PROJECT_ROOT_DIRECTORY/bin" 
+mkdir -p "$PROJECT_ROOT_DIRECTORY/bin"
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/bin/meson.build"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Creates file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+<<cpp_meson_bin>>
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/bin/hello.cpp"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Creates file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+<<cpp_meson_bin_hello_cpp>>
 //MY_CODE_STREAM
     sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
 else 

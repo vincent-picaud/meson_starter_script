@@ -239,3 +239,48 @@ else
     echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
     exit 1
 fi
+
+#================================================================
+
+echo "Creates directory $PROJECT_ROOT_DIRECTORY/bin" 
+mkdir -p "$PROJECT_ROOT_DIRECTORY/bin"
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/bin/meson.build"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Creates file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+hello_exe = executable('hello',
+		       'hello.cpp',
+		       dependencies : [@Project_Skeleton@_dep])
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/bin/hello.cpp"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Creates file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+#include "@ProjectSkeleton@/hello.hpp"
+#incldue <iostream>
+
+using namespace @ProjectSkeleton@;
+
+int main()
+{
+  std::cout << hello() << std::endl;
+}
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
