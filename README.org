@@ -10,9 +10,6 @@ project('@ProjectSkeleton@', 'cpp',
 	version : '0.0.1',
 	default_options : ['cpp_std=c++17'])
 
-KissCore_proj = subproject('KissCore')
-KissCore_dep = KissCore_proj.get_variable('KissCore_dep')
-
 gtest_proj = subproject('gtest')
 gtest_dep = gtest_proj.get_variable('gtest_main_dep')
 
