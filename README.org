@@ -4,7 +4,8 @@
 A simple script to create a [[https://mesonbuild.com][Meson]] C++ project skeleton with [[http://www.doxygen.nl/][Doxygen]] and
 [[https://github.com/google/googletest][gtest]] configured.
 
-Usage:
+*Usage:*
+
 #+BEGIN_SRC sh :exports both :results output :wrap EXAMPLE
 ./create_project --help
 #+END_SRC 
@@ -17,7 +18,7 @@ Usage: create_project PROJECT_ROOT_DIRECTORY -f
    By default *never* overwrite files, use -f to force overwriting
 #+END_EXAMPLE
 
-Example:
+*Example:*
 
 The proposed script creates Meson project with the following directory
 hierarchy:
@@ -50,6 +51,9 @@ hierarchy:
 	+ [[file:/home/picaud/Temp/DemoProject//test/hello.cpp][hello.cpp]]
 	+ [[file:/home/picaud/Temp/DemoProject//test/meson.build][meson.build]]
 :END:
+
+To reproduce, simply type the following commands that will create a
+=DemoProject= in your =$Home/Temp= directory.
 
 #+BEGIN_SRC sh :exports both :results output :wrap EXAMPLE :eval no-export 
 ./create_project $HOME/Temp/DemoProject 
