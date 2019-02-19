@@ -1,51 +1,8 @@
-#!/bin/bash
-# AUTOMATICALLY GENERATED (TANGLED) FROM create_project.org 
-# -> DO NOT MODIFY DIRECTLY *THIS* FILE
-#
-# https://github.com/vincent-picaud/meson_starter_script
-#
-set -e
+#+TITLE: The bash script generator 
 
-ERROR=1
-FORCE=0
-PROJECT_ROOT_DIRECTORY=""
 
-while [ "$1" != "" ]; do
-    case $1 in
-        -f )      FORCE=1
-		  ;;
-        * )       if [ "$PROJECT_ROOT_DIRECTORY" == "" ]; then
-		      PROJECT_ROOT_DIRECTORY=$1 
-		      ERROR=0 
-		  else 
-		      ERROR=1
-		  fi
-    esac
-    shift
-done
-
-if [ $ERROR == 1 ]; then
-    echo "Usage: $(basename $0) PROJECT_ROOT_DIRECTORY -f"
-    echo ""
-    echo "   Create a directory 'PROJECT_ROOT_DIRECTORY' and populate it with some configuration files."
-    echo "   By default *never* overwrite files, use -f to force overwriting"
-    exit 0
-fi
-
-PROJECT_NAME=$(basename "$PROJECT_ROOT_DIRECTORY")
-
-#================================================================
-
-echo "Create directory $PROJECT_ROOT_DIRECTORY" 
-mkdir -p "$PROJECT_ROOT_DIRECTORY"
-
-#----------------
-
-CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/meson.build"
-
-if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Create file      $CURRENT_FILE" 
-    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+#+NAME: cpp_meson
+#+BEGIN_SRC meson
 project('@ProjectSkeleton@', 'cpp',
 	version : '0.0.1',
 	default_options : ['cpp_std=c++17'])
@@ -58,47 +15,17 @@ subdir('test')
 subdir('bin')
 subdir('examples')
 subdir('doc')
-//MY_CODE_STREAM
-    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
-else 
-    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
-    exit 1
-fi
+#+END_SRC
 
-#================================================================
-
-echo "Create directory $PROJECT_ROOT_DIRECTORY/src" 
-mkdir -p "$PROJECT_ROOT_DIRECTORY/src"
-
-#----------------
-
-CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/src/meson.build"
-
-if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Create file      $CURRENT_FILE" 
-    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+#+NAME: cpp_meson_src
+#+BEGIN_SRC meson
 inc = include_directories('.')
 
 subdir('@ProjectSkeleton@')
-//MY_CODE_STREAM
-    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
-else 
-    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
-    exit 1
-fi
+#+END_SRC
 
-#================================================================
-
-echo "Create directory $PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME" 
-mkdir -p "$PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME"
-
-#----------------
-
-CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME/meson.build"
-
-if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Create file      $CURRENT_FILE" 
-    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+#+NAME: cpp_meson_src_project
+#+BEGIN_SRC meson
 @ProjectSkeleton@_headers = ['hello.hpp']
 @ProjectSkeleton@_sources = ['hello.cpp']
 
@@ -112,20 +39,10 @@ if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
 install_headers(@ProjectSkeleton@_headers,
 		 subdir : '@ProjectSkeleton@')
 
-//MY_CODE_STREAM
-    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
-else 
-    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
-    exit 1
-fi
+#+END_SRC
 
-#----------------
-
-CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME/hello.hpp"
-
-if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Create file      $CURRENT_FILE" 
-    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+#+NAME: cpp_meson_src_project_hello_hpp
+#+BEGIN_SRC cpp :eval never
 /// @file
 /// @brief Hello lib file
 #include <string>
@@ -140,20 +57,10 @@ namespace @ProjectSkeleton@ {
   std::string hello();
     
 }
-//MY_CODE_STREAM
-    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
-else 
-    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
-    exit 1
-fi
+#+END_SRC
 
-#----------------
-
-CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME/hello.cpp"
-
-if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Create file      $CURRENT_FILE" 
-    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+#+NAME: cpp_meson_src_project_hello_cpp
+#+BEGIN_SRC cpp :eval never
 #include "hello.hpp"
 
 namespace @ProjectSkeleton@ {
@@ -163,25 +70,10 @@ namespace @ProjectSkeleton@ {
   };
     
 }
-//MY_CODE_STREAM
-    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
-else 
-    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
-    exit 1
-fi
+#+END_SRC
 
-#================================================================
-
-echo "Create directory $PROJECT_ROOT_DIRECTORY/subprojects" 
-mkdir -p "$PROJECT_ROOT_DIRECTORY/subprojects"
-
-#----------------
-
-CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/subprojects/gtest.wrap"
-
-if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Create file      $CURRENT_FILE" 
-    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+#+NAME: cpp_meson_subprojects_gtest
+#+BEGIN_SRC txt
 [wrap-file]
 directory = googletest-release-1.8.0
 
@@ -192,25 +84,10 @@ source_hash = f3ed3b58511efd272eb074a3a6d6fb79d7c2e6a0e374323d1e6bcbcc1ef141bf
 patch_url = https://wrapdb.mesonbuild.com/v1/projects/gtest/1.8.0/5/get_zip
 patch_filename = gtest-1.8.0-5-wrap.zip
 patch_hash = 7eeaede4aa2610a403313b74e04baf91ccfbaef03203d8f56312e22df1834ec5
-//MY_CODE_STREAM
-    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
-else 
-    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
-    exit 1
-fi
+#+END_SRC
 
-#================================================================
-
-echo "Create directory $PROJECT_ROOT_DIRECTORY/test" 
-mkdir -p "$PROJECT_ROOT_DIRECTORY/test"
-
-#----------------
-
-CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/test/meson.build"
-
-if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Create file      $CURRENT_FILE" 
-    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+#+NAME: cpp_meson_test
+#+BEGIN_SRC meson
 test_array = [['hello_test','hello_exe','hello.cpp']]
 
 foreach test : test_array
@@ -220,20 +97,10 @@ foreach test : test_array
 		  dependencies
  		  : [ @ProjectSkeleton@_dep, gtest_dep ]))
 endforeach
-//MY_CODE_STREAM
-    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
-else 
-    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
-    exit 1
-fi
+#+END_SRC
 
-#----------------
-
-CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/test/hello.cpp"
-
-if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Create file      $CURRENT_FILE" 
-    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+#+NAME: cpp_meson_test_hello_cpp
+#+BEGIN_SRC meson
 #include "@ProjectSkeleton@/hello.hpp"
 #include <gtest/gtest.h>
 
@@ -243,43 +110,18 @@ TEST(Hello, demo)
 {
   ASSERT_EQ(hello(),"Hello @ProjectSkeleton@");
 }
-//MY_CODE_STREAM
-    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
-else 
-    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
-    exit 1
-fi
+#+END_SRC
 
-#================================================================
-
-echo "Create directory $PROJECT_ROOT_DIRECTORY/bin" 
-mkdir -p "$PROJECT_ROOT_DIRECTORY/bin"
-
-#----------------
-
-CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/bin/meson.build"
-
-if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Create file      $CURRENT_FILE" 
-    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+#+NAME: cpp_meson_bin 
+#+BEGIN_SRC meson
 hello_exe = executable('hello',
 		       'hello.cpp',
 		       install : true,
 		       dependencies : [@ProjectSkeleton@_dep])
-//MY_CODE_STREAM
-    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
-else 
-    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
-    exit 1
-fi
+#+END_SRC
 
-#----------------
-
-CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/bin/hello.cpp"
-
-if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Create file      $CURRENT_FILE" 
-    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+#+NAME: cpp_meson_bin_hello_cpp
+#+BEGIN_SRC cpp
 /// @file
 /// @brief Hello executable file
 #include "@ProjectSkeleton@/hello.hpp"
@@ -291,42 +133,17 @@ int main()
 {
   std::cout << hello() << std::endl;
 }
-//MY_CODE_STREAM
-    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
-else 
-    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
-    exit 1
-fi
+#+END_SRC
 
-#================================================================
-
-echo "Create directory $PROJECT_ROOT_DIRECTORY/examples" 
-mkdir -p "$PROJECT_ROOT_DIRECTORY/examples"
-
-#----------------
-
-CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/examples/meson.build"
-
-if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Create file      $CURRENT_FILE" 
-    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+#+NAME: cpp_meson_examples 
+#+BEGIN_SRC meson
 hello_exe = executable('hello',
 		       'hello.cpp',
 		       dependencies : [@ProjectSkeleton@_dep])
-//MY_CODE_STREAM
-    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
-else 
-    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
-    exit 1
-fi
+#+END_SRC
 
-#----------------
-
-CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/examples/hello.cpp"
-
-if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Create file      $CURRENT_FILE" 
-    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+#+NAME: cpp_meson_examples_hello_cpp
+#+BEGIN_SRC cpp
 /// @file
 /// @brief Hello example file
 #include "@ProjectSkeleton@/hello.hpp"
@@ -338,27 +155,10 @@ int main()
 {
   std::cout << hello() << std::endl;
 }
-//MY_CODE_STREAM
-    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
-else 
-    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
-    exit 1
-fi
+#+END_SRC
 
-#================================================================
-
-echo "Create directory $PROJECT_ROOT_DIRECTORY/doc" 
-mkdir -p "$PROJECT_ROOT_DIRECTORY/doc"
-echo "Create directory $PROJECT_ROOT_DIRECTORY/doc/figures" 
-mkdir -p "$PROJECT_ROOT_DIRECTORY/doc/figures"
-
-#----------------
-
-CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/doc/meson.build"
-
-if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Create file      $CURRENT_FILE" 
-    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+#+NAME: cpp_meson_doc
+#+BEGIN_SRC meson
 doxygen = find_program('doxygen', required : false)
 
 if not doxygen.found()
@@ -395,20 +195,10 @@ html_target = custom_target('doc',
                             install: true,
                             install_dir: datadir)
 
-//MY_CODE_STREAM
-    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
-else 
-    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
-    exit 1
-fi
+#+END_SRC
 
-#----------------
-
-CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/doc/Doxyfile.in"
-
-if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
-    echo "Create file      $CURRENT_FILE" 
-    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+#+NAME: cpp_meson_doc_doxyfile
+#+BEGIN_SRC txt
 # Doxyfile 1.8.13
 
 # This file describes the settings to be used by the documentation system
@@ -2842,6 +2632,299 @@ GENERATE_LEGEND        = YES
 
 DOT_CLEANUP            = YES
 
+#+END_SRC
+
+#+NAME: cpp_meson_doc_bibtex
+#+BEGIN_SRC bibtex 
+@manual{pakkanen_meson_build_system,
+  author =	 "Jussi Pakkanen",
+  title =	 "The Meson Build System",
+  url =		 "https://mesonbuild.com/Getting-meson.html",
+}
+
+#+END_SRC
+
+#+BEGIN_SRC bash :noweb yes :tangle create_project :shebang "#!/bin/bash" :tangle-mode (identity #o555)
+# AUTOMATICALLY GENERATED (TANGLED) FROM create_project.org 
+# -> DO NOT MODIFY DIRECTLY *THIS* FILE
+#
+# https://github.com/vincent-picaud/meson_starter_script
+#
+set -e
+
+ERROR=1
+FORCE=0
+PROJECT_ROOT_DIRECTORY=""
+
+while [ "$1" != "" ]; do
+    case $1 in
+        -f )      FORCE=1
+		  ;;
+        ,* )       if [ "$PROJECT_ROOT_DIRECTORY" == "" ]; then
+		      PROJECT_ROOT_DIRECTORY=$1 
+		      ERROR=0 
+		  else 
+		      ERROR=1
+		  fi
+    esac
+    shift
+done
+
+if [ $ERROR == 1 ]; then
+    echo "Usage: $(basename $0) PROJECT_ROOT_DIRECTORY -f"
+    echo ""
+    echo "   Create a directory 'PROJECT_ROOT_DIRECTORY' and populate it with some configuration files."
+    echo "   By default *never* overwrite files, use -f to force overwriting"
+    exit 0
+fi
+
+PROJECT_NAME=$(basename "$PROJECT_ROOT_DIRECTORY")
+
+#================================================================
+
+echo "Create directory $PROJECT_ROOT_DIRECTORY" 
+mkdir -p "$PROJECT_ROOT_DIRECTORY"
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/meson.build"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Create file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+<<cpp_meson>>
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#================================================================
+
+echo "Create directory $PROJECT_ROOT_DIRECTORY/src" 
+mkdir -p "$PROJECT_ROOT_DIRECTORY/src"
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/src/meson.build"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Create file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+<<cpp_meson_src>>
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#================================================================
+
+echo "Create directory $PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME" 
+mkdir -p "$PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME"
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME/meson.build"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Create file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+<<cpp_meson_src_project>>
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME/hello.hpp"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Create file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+<<cpp_meson_src_project_hello_hpp>>
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/src/$PROJECT_NAME/hello.cpp"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Create file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+<<cpp_meson_src_project_hello_cpp>>
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#================================================================
+
+echo "Create directory $PROJECT_ROOT_DIRECTORY/subprojects" 
+mkdir -p "$PROJECT_ROOT_DIRECTORY/subprojects"
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/subprojects/gtest.wrap"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Create file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+<<cpp_meson_subprojects_gtest>>
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#================================================================
+
+echo "Create directory $PROJECT_ROOT_DIRECTORY/test" 
+mkdir -p "$PROJECT_ROOT_DIRECTORY/test"
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/test/meson.build"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Create file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+<<cpp_meson_test>>
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/test/hello.cpp"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Create file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+<<cpp_meson_test_hello_cpp>>
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#================================================================
+
+echo "Create directory $PROJECT_ROOT_DIRECTORY/bin" 
+mkdir -p "$PROJECT_ROOT_DIRECTORY/bin"
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/bin/meson.build"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Create file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+<<cpp_meson_bin>>
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/bin/hello.cpp"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Create file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+<<cpp_meson_bin_hello_cpp>>
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#================================================================
+
+echo "Create directory $PROJECT_ROOT_DIRECTORY/examples" 
+mkdir -p "$PROJECT_ROOT_DIRECTORY/examples"
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/examples/meson.build"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Create file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+<<cpp_meson_examples>>
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/examples/hello.cpp"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Create file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+<<cpp_meson_examples_hello_cpp>>
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#================================================================
+
+echo "Create directory $PROJECT_ROOT_DIRECTORY/doc" 
+mkdir -p "$PROJECT_ROOT_DIRECTORY/doc"
+echo "Create directory $PROJECT_ROOT_DIRECTORY/doc/figures" 
+mkdir -p "$PROJECT_ROOT_DIRECTORY/doc/figures"
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/doc/meson.build"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Create file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+<<cpp_meson_doc>>
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/doc/Doxyfile.in"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Create file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+<<cpp_meson_doc_doxyfile>>
 //MY_CODE_STREAM
     sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
 else 
@@ -2856,15 +2939,15 @@ CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/doc/bibliography.bib"
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
     echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
-@manual{pakkanen_meson_build_system,
-  author =	 "Jussi Pakkanen",
-  title =	 "The Meson Build System",
-  url =		 "https://mesonbuild.com/Getting-meson.html",
-}
-
+<<cpp_meson_doc_bibtex>>
 //MY_CODE_STREAM
     sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
 else 
     echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
     exit 1
 fi
+#+END_SRC
+
+#+RESULTS:
+
+
