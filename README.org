@@ -19,9 +19,41 @@ Usage: create_project PROJECT_ROOT_DIRECTORY -f
 
 Example:
 
+The proposed script creates Meson project with the following directory
+hierarchy:
+#+BEGIN_SRC sh :results output drawer :exports results :eval no-export 
+/home/picaud/GitLab/WorkingWithOrgMode/Scripts/orgTree.sh $HOME/Temp/DemoProject/ -P "*.*"
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
++ bin/
+	+ [[file:/home/picaud/Temp/DemoProject//bin/hello.cpp][hello.cpp]]
+	+ [[file:/home/picaud/Temp/DemoProject//bin/meson.build][meson.build]]
++ doc/
+	+ [[file:/home/picaud/Temp/DemoProject//doc/bibliography.bib][bibliography.bib]]
+	+ [[file:/home/picaud/Temp/DemoProject//doc/Doxyfile.in][Doxyfile.in]]
+	+ [[file:/home/picaud/Temp/DemoProject//doc/meson.build][meson.build]]
++ examples/
+	+ [[file:/home/picaud/Temp/DemoProject//examples/hello.cpp][hello.cpp]]
+	+ [[file:/home/picaud/Temp/DemoProject//examples/meson.build][meson.build]]
++ [[file:/home/picaud/Temp/DemoProject//meson.build][meson.build]]
++ src/
+	+ DemoProject/
+		+ [[file:/home/picaud/Temp/DemoProject//src/DemoProject/hello.cpp][hello.cpp]]
+		+ [[file:/home/picaud/Temp/DemoProject//src/DemoProject/hello.hpp][hello.hpp]]
+		+ [[file:/home/picaud/Temp/DemoProject//src/DemoProject/meson.build][meson.build]]
+	+ [[file:/home/picaud/Temp/DemoProject//src/meson.build][meson.build]]
++ subprojects/
+	+ [[file:/home/picaud/Temp/DemoProject//subprojects/gtest.wrap][gtest.wrap]]
++ test/
+	+ [[file:/home/picaud/Temp/DemoProject//test/hello.cpp][hello.cpp]]
+	+ [[file:/home/picaud/Temp/DemoProject//test/meson.build][meson.build]]
+:END:
+
 #+BEGIN_SRC sh :exports both :results output :wrap EXAMPLE :eval no-export 
 ./create_project $HOME/Temp/DemoProject 
-cd ~/Temp/DemoProject
+cd $HOME/Temp/DemoProject
 echo "\n--- MESON CONFIG ---\n"
 meson setup build --prefix=$HOME/Temp/DemoProject/InstallDirectory
 cd build
@@ -101,8 +133,8 @@ Found ninja-1.8.2 at /usr/bin/ninja
 --- COMPILE ---
 
 [1/12] Compiling C++ object 'src/DemoProject/28a1d24@@DemoProject@sha/hello.cpp.o'.
-[2/12] Compiling C++ object 'bin/51a1f05@@hello@exe/hello.cpp.o'.
-[3/12] Compiling C++ object 'examples/c590b3c@@hello@exe/hello.cpp.o'.
+[2/12] Compiling C++ object 'examples/c590b3c@@hello@exe/hello.cpp.o'.
+[3/12] Compiling C++ object 'bin/51a1f05@@hello@exe/hello.cpp.o'.
 [4/12] Compiling C++ object 'test/9f86d08@@hello_exe@exe/.._subprojects_googletest-release-1.8.0_googletest_src_gtest_main.cc.o'.
 [5/12] Compiling C++ object 'test/9f86d08@@hello_exe@exe/hello.cpp.o'.
 [6/12] Compiling C++ object 'test/9f86d08@@hello_exe@exe/.._subprojects_googletest-release-1.8.0_googletest_src_gtest-all.cc.o'.
@@ -212,8 +244,8 @@ Running dot for graph 1/1
 lookup cache used 6/65536 hits=10 misses=6
 finished...
 [9/12] Generating symbol file 'src/DemoProject/28a1d24@@DemoProject@sha/libDemoProject.so.symbols'.
-[10/12] Linking target bin/hello.
-[11/12] Linking target examples/hello.
+[10/12] Linking target examples/hello.
+[11/12] Linking target bin/hello.
 [12/12] Linking target test/hello_exe.
 
 --- GTEST ---
