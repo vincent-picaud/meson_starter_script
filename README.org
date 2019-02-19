@@ -1,21 +1,280 @@
-#+TITLE: Meson start scripts
-#+PROPERTY: header-args :eval never :exports none
+#+TITLE: A Meson starter script for C++ projects
+#+PROPERTY: header-args :exports none
 
-* Skeleton C++ project
-
-A simple script to create a messon project skeleton
+A simple script to create a [[https://mesonbuild.com][Meson]] C++ project skeleton with [[http://www.doxygen.nl/][Doxygen]] and
+[[https://github.com/google/googletest][gtest]] configured.
 
 Usage:
+#+BEGIN_SRC sh :exports both :results output :wrap EXAMPLE
+./create_project --help
+#+END_SRC 
 
-#+BEGIN_SRC sh :exports code
-./create_meson_cpp_skeleton_project /tmp/DemoProject
-cd /tmp/DemoProject
-meson setup debug --prefix=/tmp/DemoProject/InstallDemo
-cd debug
-ninja all 
+#+RESULTS:
+#+BEGIN_EXAMPLE
+Usage: create_project PROJECT_ROOT_DIRECTORY -f
+
+   Create a directory 'PROJECT_ROOT_DIRECTORY' and populate it with some configuration files.
+   By default *never* overwrite files, use -f to force overwriting
+#+END_EXAMPLE
+
+Example:
+
+#+BEGIN_SRC sh :exports both :results output :wrap EXAMPLE :eval no-export 
+./create_project $HOME/Temp/DemoProject 
+cd ~/Temp/DemoProject
+echo "\n--- MESON CONFIG ---\n"
+meson setup build --prefix=$HOME/Temp/DemoProject/InstallDirectory
+cd build
+echo "\n--- COMPILE ---\n"
+ninja 
+echo "\n--- LOCAL INSTALL ---\n"
 ninja install
 #+END_SRC
 
+#+RESULTS:
+#+BEGIN_EXAMPLE
+Create directory /home/picaud/Temp/DemoProject
+Create file      /home/picaud/Temp/DemoProject/meson.build
+Create directory /home/picaud/Temp/DemoProject/src
+Create file      /home/picaud/Temp/DemoProject/src/meson.build
+Create directory /home/picaud/Temp/DemoProject/src/DemoProject
+Create file      /home/picaud/Temp/DemoProject/src/DemoProject/meson.build
+Create file      /home/picaud/Temp/DemoProject/src/DemoProject/hello.hpp
+Create file      /home/picaud/Temp/DemoProject/src/DemoProject/hello.cpp
+Create directory /home/picaud/Temp/DemoProject/subprojects
+Create file      /home/picaud/Temp/DemoProject/subprojects/gtest.wrap
+Create directory /home/picaud/Temp/DemoProject/test
+Create file      /home/picaud/Temp/DemoProject/test/meson.build
+Create file      /home/picaud/Temp/DemoProject/test/hello.cpp
+Create directory /home/picaud/Temp/DemoProject/bin
+Create file      /home/picaud/Temp/DemoProject/bin/meson.build
+Create file      /home/picaud/Temp/DemoProject/bin/hello.cpp
+Create directory /home/picaud/Temp/DemoProject/examples
+Create file      /home/picaud/Temp/DemoProject/examples/meson.build
+Create file      /home/picaud/Temp/DemoProject/examples/hello.cpp
+Create directory /home/picaud/Temp/DemoProject/doc
+Create directory /home/picaud/Temp/DemoProject/doc/figures
+Create file      /home/picaud/Temp/DemoProject/doc/meson.build
+Create file      /home/picaud/Temp/DemoProject/doc/Doxyfile.in
+Create file      /home/picaud/Temp/DemoProject/doc/bibliography.bib
+
+--- MESON CONFIG ---
+
+The Meson build system
+Version: 0.49.2
+Source dir: /home/picaud/Temp/DemoProject
+Build dir: /home/picaud/Temp/DemoProject/build
+Build type: native build
+Project name: DemoProject
+Project version: 0.0.1
+Native C++ compiler: ccache c++ (gcc 8.2.0 "c++ (Debian 8.2.0-20) 8.2.0")
+Build machine cpu family: x86_64
+Build machine cpu: x86_64
+Downloading gtest source from https://github.com/google/googletest/archive/release-1.8.0.zip
+Download size: 1586287
+Downloading: ..........
+Downloading gtest patch from https://wrapdb.mesonbuild.com/v1/projects/gtest/1.8.0/5/get_zip
+Download size: 2084
+Downloading: ..........
+
+|
+|Executing subproject gtest 
+|
+|Project name: gtest
+|Project version: 1.8.0
+|Native C++ compiler: ccache c++ (gcc 8.2.0 "c++ (Debian 8.2.0-20) 8.2.0")
+|Dependency threads found: YES 
+|Dependency threads found: YES (cached)
+|Dependency threads found: YES (cached)
+|Dependency threads found: YES (cached)
+|Build targets in project: 0
+|
+|Subproject gtest finished.
+Program doxygen found: YES (/usr/bin/doxygen)
+Program dot found: YES (/usr/bin/dot)
+Configuring Doxyfile using configuration
+Build targets in project: 5
+Found ninja-1.8.2 at /usr/bin/ninja
+
+--- COMPILE ---
+
+[1/12] Compiling C++ object 'src/DemoProject/28a1d24@@DemoProject@sha/hello.cpp.o'.
+[2/12] Compiling C++ object 'bin/51a1f05@@hello@exe/hello.cpp.o'.
+[3/12] Compiling C++ object 'examples/c590b3c@@hello@exe/hello.cpp.o'.
+[4/12] Compiling C++ object 'test/9f86d08@@hello_exe@exe/.._subprojects_googletest-release-1.8.0_googletest_src_gtest_main.cc.o'.
+[5/12] Compiling C++ object 'test/9f86d08@@hello_exe@exe/hello.cpp.o'.
+[6/12] Compiling C++ object 'test/9f86d08@@hello_exe@exe/.._subprojects_googletest-release-1.8.0_googletest_src_gtest-all.cc.o'.
+[7/12] Linking target src/DemoProject/libDemoProject.so.
+[8/12] Generating doc with a custom command.
+warning: ignoring unknown tag `y' at line 2277, file doc/Doxyfile
+Searching for include files...
+Searching for files in directory /home/picaud/Temp/DemoProject/src/DemoProject
+Searching for files in directory /home/picaud/Temp/DemoProject/bin
+Searching for example files...
+Searching for files in directory /home/picaud/Temp/DemoProject/examples
+Searching for images...
+Searching for files in directory /home/picaud/Temp/DemoProject/doc/figures
+Searching for dot files...
+Searching for msc files...
+Searching for dia files...
+Searching for files to exclude
+Searching INPUT for files to process...
+Searching for files in directory /home/picaud/Temp/DemoProject/src/DemoProject
+Searching for files in directory /home/picaud/Temp/DemoProject/bin
+Reading and parsing tag files
+Parsing files
+Preprocessing /home/picaud/Temp/DemoProject/src/DemoProject/hello.cpp...
+Parsing file /home/picaud/Temp/DemoProject/src/DemoProject/hello.cpp...
+Preprocessing /home/picaud/Temp/DemoProject/src/DemoProject/hello.hpp...
+Parsing file /home/picaud/Temp/DemoProject/src/DemoProject/hello.hpp...
+Preprocessing /home/picaud/Temp/DemoProject/bin/hello.cpp...
+Parsing file /home/picaud/Temp/DemoProject/bin/hello.cpp...
+Building group list...
+Building directory list...
+Building namespace list...
+Building file list...
+Building class list...
+Associating documentation with classes...
+Computing nesting relations for classes...
+Building example list...
+Searching for enumerations...
+Searching for documented typedefs...
+Searching for members imported via using declarations...
+Searching for included using directives...
+Searching for documented variables...
+Building interface member list...
+Building member list...
+Searching for friends...
+Searching for documented defines...
+Computing class inheritance relations...
+Computing class usage relations...
+Flushing cached template relations that have become invalid...
+Computing class relations...
+Add enum values to enums...
+Searching for member function documentation...
+Creating members for template instances...
+Building page list...
+Search for main page...
+Computing page relations...
+Determining the scope of groups...
+Sorting lists...
+Freeing entry tree
+Determining which enums are documented
+Computing member relations...
+Building full member lists recursively...
+Adding members to member groups.
+Computing member references...
+Inheriting documentation...
+Generating disk names...
+Adding source references...
+Adding xrefitems...
+Sorting member lists...
+Generating citations page...
+Counting data structures...
+Resolving user defined references...
+Finding anchors and sections in the documentation...
+Transferring function references...
+Combining using relations...
+Adding members to index pages...
+Generating style sheet...
+Generating search indices...
+Generating example documentation...
+Generating file sources...
+Generating code for file /home/picaud/Temp/DemoProject/src/DemoProject/hello.hpp...
+Generating file documentation...
+Generating docs for file /home/picaud/Temp/DemoProject/bin/hello.cpp...
+Generating docs for file /home/picaud/Temp/DemoProject/src/DemoProject/hello.hpp...
+Generating page documentation...
+Generating docs for page citelist...
+Generating group documentation...
+Generating class documentation...
+Generating namespace index...
+Generating graph info page...
+Generating directory documentation...
+Generating index page...
+Generating page index...
+Generating module index...
+Generating namespace index...
+Generating namespace member index...
+Generating annotated compound index...
+Generating alphabetical compound index...
+Generating hierarchical class index...
+Generating member index...
+Generating file index...
+Generating file member index...
+Generating example index...
+finalizing index lists...
+writing tag file...
+Running dot...
+Running dot for graph 1/1
+lookup cache used 6/65536 hits=10 misses=6
+finished...
+[9/12] Generating symbol file 'src/DemoProject/28a1d24@@DemoProject@sha/libDemoProject.so.symbols'.
+[10/12] Linking target examples/hello.
+[11/12] Linking target bin/hello.
+[12/12] Linking target test/hello_exe.
+
+--- LOCAL INSTALL ---
+
+[0/1] Installing files.
+Installing src/DemoProject/libDemoProject.so to /home/picaud/Temp/DemoProject/InstallDirectory/lib/x86_64-linux-gnu
+Installing bin/hello to /home/picaud/Temp/DemoProject/InstallDirectory/bin
+Installing /home/picaud/Temp/DemoProject/build/doc/html/nav_h.png to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/hello_8hpp.html to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/files.html to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/closed.png to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/menu.js to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/doxygen.css to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/tab_b.png to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/tabs.css to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/doc.png to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/bdwn.png to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/jquery.js to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/pages.html to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/sync_off.png to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/dir_2afe18f96d9ef5c597fac2650487602c.html to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/dynsections.js to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/menudata.js to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/folderopen.png to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/tab_h.png to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/dir_68267d1309a1af8e8297ef4c3efbcdba.html to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/splitbar.png to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/dir_2ea30aa2956a8db99dd22aa5e597f384.html to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/graph_legend.png to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/graph_legend.md5 to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/open.png to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/nav_f.png to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/tab_a.png to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/sync_on.png to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/bc_s.png to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/citelist.html to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/graph_legend.html to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/bin_2hello_8cpp.html to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/index.html to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/hello_8hpp_source.html to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/folderclosed.png to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/doxygen.png to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/tab_s.png to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/nav_g.png to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html
+Installing /home/picaud/Temp/DemoProject/build/doc/html/search/search_m.png to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html/search
+Installing /home/picaud/Temp/DemoProject/build/doc/html/search/searchdata.js to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html/search
+Installing /home/picaud/Temp/DemoProject/build/doc/html/search/search.css to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html/search
+Installing /home/picaud/Temp/DemoProject/build/doc/html/search/search_l.png to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html/search
+Installing /home/picaud/Temp/DemoProject/build/doc/html/search/mag_sel.png to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html/search
+Installing /home/picaud/Temp/DemoProject/build/doc/html/search/pages_0.js to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html/search
+Installing /home/picaud/Temp/DemoProject/build/doc/html/search/all_0.js to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html/search
+Installing /home/picaud/Temp/DemoProject/build/doc/html/search/all_1.html to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html/search
+Installing /home/picaud/Temp/DemoProject/build/doc/html/search/search_r.png to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html/search
+Installing /home/picaud/Temp/DemoProject/build/doc/html/search/all_1.js to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html/search
+Installing /home/picaud/Temp/DemoProject/build/doc/html/search/search.js to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html/search
+Installing /home/picaud/Temp/DemoProject/build/doc/html/search/files_0.js to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html/search
+Installing /home/picaud/Temp/DemoProject/build/doc/html/search/all_0.html to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html/search
+Installing /home/picaud/Temp/DemoProject/build/doc/html/search/pages_0.html to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html/search
+Installing /home/picaud/Temp/DemoProject/build/doc/html/search/files_0.html to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html/search
+Installing /home/picaud/Temp/DemoProject/build/doc/html/search/close.png to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html/search
+Installing /home/picaud/Temp/DemoProject/build/doc/html/search/nomatches.html to /home/picaud/Temp/DemoProject/InstallDirectory/share/doc/html/search
+Installing /home/picaud/Temp/DemoProject/src/DemoProject/hello.hpp to /home/picaud/Temp/DemoProject/InstallDirectory/include/DemoProject
+#+END_EXAMPLE
 
 #+NAME: cpp_meson
 #+BEGIN_SRC meson
@@ -2660,7 +2919,7 @@ DOT_CLEANUP            = YES
 
 #+END_SRC
 
-#+BEGIN_SRC bash :noweb yes :tangle create_meson_cpp_skeleton_project :shebang "#!/bin/bash" 
+#+BEGIN_SRC bash :noweb yes :tangle create_project :shebang "#!/bin/bash" 
 set -e
 
 ERROR=0
@@ -2685,8 +2944,8 @@ done
 if [ $ERROR == 1 ]; then
     echo "Usage: $(basename $0) PROJECT_ROOT_DIRECTORY -f"
     echo ""
-    echo " Create a directory 'project_dir' and populate it with some configuration files"
-    echo " By default never overwrite files, use -f to force overwriting"
+    echo "   Create a directory 'PROJECT_ROOT_DIRECTORY' and populate it with some configuration files."
+    echo "   By default *never* overwrite files, use -f to force overwriting"
     exit 0
 fi
 
