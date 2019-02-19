@@ -23,33 +23,33 @@ Usage: create_project PROJECT_ROOT_DIRECTORY -f
 The proposed script creates Meson project with the following directory
 hierarchy:
 #+BEGIN_SRC sh :results output drawer :exports results :eval no-export 
-/home/picaud/GitLab/WorkingWithOrgMode/Scripts/orgTree.sh $HOME/Temp/DemoProject/ -P "*.*"
+/home/picaud/GitLab/WorkingWithOrgMode/Scripts/orgTree.sh $HOME/Temp/DemoProject/ --noLink -P "*.*" 
 #+END_SRC
 
 #+RESULTS:
 :RESULTS:
 + bin/
-	+ [[file:/home/picaud/Temp/DemoProject//bin/hello.cpp][hello.cpp]]
-	+ [[file:/home/picaud/Temp/DemoProject//bin/meson.build][meson.build]]
+	+ hello.cpp
+	+ meson.build
 + doc/
-	+ [[file:/home/picaud/Temp/DemoProject//doc/bibliography.bib][bibliography.bib]]
-	+ [[file:/home/picaud/Temp/DemoProject//doc/Doxyfile.in][Doxyfile.in]]
-	+ [[file:/home/picaud/Temp/DemoProject//doc/meson.build][meson.build]]
+	+ bibliography.bib
+	+ Doxyfile.in
+	+ meson.build
 + examples/
-	+ [[file:/home/picaud/Temp/DemoProject//examples/hello.cpp][hello.cpp]]
-	+ [[file:/home/picaud/Temp/DemoProject//examples/meson.build][meson.build]]
-+ [[file:/home/picaud/Temp/DemoProject//meson.build][meson.build]]
+	+ hello.cpp
+	+ meson.build
++ meson.build
 + src/
 	+ DemoProject/
-		+ [[file:/home/picaud/Temp/DemoProject//src/DemoProject/hello.cpp][hello.cpp]]
-		+ [[file:/home/picaud/Temp/DemoProject//src/DemoProject/hello.hpp][hello.hpp]]
-		+ [[file:/home/picaud/Temp/DemoProject//src/DemoProject/meson.build][meson.build]]
-	+ [[file:/home/picaud/Temp/DemoProject//src/meson.build][meson.build]]
+		+ hello.cpp
+		+ hello.hpp
+		+ meson.build
+	+ meson.build
 + subprojects/
-	+ [[file:/home/picaud/Temp/DemoProject//subprojects/gtest.wrap][gtest.wrap]]
+	+ gtest.wrap
 + test/
-	+ [[file:/home/picaud/Temp/DemoProject//test/hello.cpp][hello.cpp]]
-	+ [[file:/home/picaud/Temp/DemoProject//test/meson.build][meson.build]]
+	+ hello.cpp
+	+ meson.build
 :END:
 
 To reproduce, simply type the following commands that will create a
