@@ -20,7 +20,7 @@ Usage: create_project PROJECT_ROOT_DIRECTORY -f
 
 *Example:*
 
-The proposed script creates Meson project with the following directory
+The proposed script creates a Meson project with the following directory
 hierarchy:
 #+BEGIN_SRC sh :results output drawer :exports results :eval no-export :wrap EXAMPLE
 /home/picaud/GitLab/WorkingWithOrgMode/Scripts/orgTree.sh $HOME/Temp/DemoProject/ --noLink -P "*.*" 
