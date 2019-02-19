@@ -27,6 +27,8 @@ meson setup build --prefix=$HOME/Temp/DemoProject/InstallDirectory
 cd build
 echo "\n--- COMPILE ---\n"
 ninja 
+echo "\n--- GTEST ---\n"
+ninja test
 echo "\n--- LOCAL INSTALL ---\n"
 ninja install
 #+END_SRC
@@ -210,9 +212,23 @@ Running dot for graph 1/1
 lookup cache used 6/65536 hits=10 misses=6
 finished...
 [9/12] Generating symbol file 'src/DemoProject/28a1d24@@DemoProject@sha/libDemoProject.so.symbols'.
-[10/12] Linking target examples/hello.
-[11/12] Linking target bin/hello.
+[10/12] Linking target bin/hello.
+[11/12] Linking target examples/hello.
 [12/12] Linking target test/hello_exe.
+
+--- GTEST ---
+
+[0/1] Running all tests.
+1/1 hello_test                              OK       0.01 s 
+
+Ok:                    1
+Expected Fail:         0
+Fail:                  0
+Unexpected Pass:       0
+Skipped:               0
+Timeout:               0
+
+Full log written to /home/picaud/Temp/DemoProject/build/meson-logs/testlog.txt
 
 --- LOCAL INSTALL ---
 
