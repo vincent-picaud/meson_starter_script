@@ -22,12 +22,12 @@ Usage: create_project PROJECT_ROOT_DIRECTORY -f
 
 The proposed script creates Meson project with the following directory
 hierarchy:
-#+BEGIN_SRC sh :results output drawer :exports results :eval no-export 
+#+BEGIN_SRC sh :results output drawer :exports results :eval no-export :wrap EXAMPLE
 /home/picaud/GitLab/WorkingWithOrgMode/Scripts/orgTree.sh $HOME/Temp/DemoProject/ --noLink -P "*.*" 
 #+END_SRC
 
 #+RESULTS:
-:RESULTS:
+#+BEGIN_EXAMPLE
 + bin/
 	+ hello.cpp
 	+ meson.build
@@ -50,7 +50,7 @@ hierarchy:
 + test/
 	+ hello.cpp
 	+ meson.build
-:END:
+#+END_EXAMPLE
 
 To reproduce, simply type the following commands that will create a
 =DemoProject= in your =$Home/Temp= directory.
