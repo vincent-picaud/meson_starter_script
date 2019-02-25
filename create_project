@@ -56,7 +56,7 @@ gtest_dep = gtest_proj.get_variable('gtest_main_dep')
 subdir('src')
 subdir('test')
 subdir('bin')
-subdir('examples')
+subdir('sandbox')
 subdir('doc')
 //MY_CODE_STREAM
     sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
@@ -300,12 +300,12 @@ fi
 
 #================================================================
 
-echo "Create directory $PROJECT_ROOT_DIRECTORY/examples" 
-mkdir -p "$PROJECT_ROOT_DIRECTORY/examples"
+echo "Create directory $PROJECT_ROOT_DIRECTORY/sandbox" 
+mkdir -p "$PROJECT_ROOT_DIRECTORY/sandbox"
 
 #----------------
 
-CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/examples/meson.build"
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/sandbox/meson.build"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
     echo "Create file      $CURRENT_FILE" 
@@ -322,7 +322,7 @@ fi
 
 #----------------
 
-CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/examples/hello.cpp"
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/sandbox/hello.cpp"
 
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
     echo "Create file      $CURRENT_FILE" 
@@ -377,7 +377,7 @@ endif
 cdata.set('PROJECT_NAME',meson.project_name())
 cdata.set('PROJECT_SRCDIR', join_paths(meson.source_root(),'src',meson.project_name()))
 cdata.set('PROJECT_BINDIR', join_paths(meson.source_root(),'bin'))
-cdata.set('PROJECT_EXAMPLESDIR', join_paths(meson.source_root(),'examples'))
+cdata.set('PROJECT_SANDBOXDIR', join_paths(meson.source_root(),'sandbox'))
 cdata.set('PROJECT_DOCDIR', join_paths(meson.source_root(),'doc'))
 cdata.set('PROJECT_TESTDIR', join_paths(meson.source_root(),'test'))
 
@@ -1263,7 +1263,7 @@ EXCLUDE_PATTERNS       =
 # The EXCLUDE_SYMBOLS tag can be used to specify one or more symbol names
 # (namespaces, classes, functions, etc.) that should be excluded from the
 # output. The symbol name can be a fully qualified name, a word, or if the
-# wildcard * is used, a substring. Examples: ANamespace, AClass,
+# wildcard * is used, a substring. Sandbox: ANamespace, AClass,
 # AClass::ANamespace, ANamespace::*Test
 #
 # Note that the wildcards are matched against the file with absolute path, so to
@@ -1275,7 +1275,7 @@ EXCLUDE_SYMBOLS        =
 # that contain example code fragments that are included (see the \include
 # command).
 
-EXAMPLE_PATH           = "@PROJECT_EXAMPLESDIR@"
+EXAMPLE_PATH           = "@PROJECT_SANDBOXDIR@"
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp and
