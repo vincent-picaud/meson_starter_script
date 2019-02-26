@@ -22,32 +22,32 @@ Usage: create_project PROJECT_ROOT_DIRECTORY -f
 
 The proposed script creates a Meson project with the following directory
 hierarchy:
-#+BEGIN_SRC sh :results output drawer :exports results :eval no-export :wrap EXAMPLE
+#+BEGIN_SRC sh :results output drawer :exports results :eval no-export :wrap EXAMPLE :eval never
 /home/picaud/GitLab/WorkingWithOrgMode/Scripts/orgTree.sh $HOME/Temp/DemoProject/ --noLink -P "*.*" 
 #+END_SRC
 
 #+RESULTS:
 #+BEGIN_EXAMPLE
-+ bin/
++ bin/                           <- creates binaries that are installed
 	+ hello.cpp
 	+ meson.build
 + doc/
-	+ bibliography.bib
+	+ bibliography.bib       <- doxygen + bibliography file, installed  
 	+ Doxyfile.in
 	+ meson.build
-+ examples/
++ sandbox/                       <- creates "sandbox" binaries, not installed
 	+ hello.cpp
 	+ meson.build
-+ meson.build
++ meson.build                    <- root meson file
 + src/
-	+ DemoProject/
+	+ DemoProject/           <- your "DemoProject" library, installed
 		+ hello.cpp
 		+ hello.hpp
 		+ meson.build
 	+ meson.build
-+ subprojects/
++ subprojects/                   <- subprojects, gtest for instance, not installed        
 	+ gtest.wrap
-+ test/
++ test/                          <- utest dir (here configured for gtest), not installed    
 	+ hello.cpp
 	+ meson.build
 #+END_EXAMPLE
@@ -87,9 +87,9 @@ Create file      /home/picaud/Temp/DemoProject/test/hello.cpp
 Create directory /home/picaud/Temp/DemoProject/bin
 Create file      /home/picaud/Temp/DemoProject/bin/meson.build
 Create file      /home/picaud/Temp/DemoProject/bin/hello.cpp
-Create directory /home/picaud/Temp/DemoProject/examples
-Create file      /home/picaud/Temp/DemoProject/examples/meson.build
-Create file      /home/picaud/Temp/DemoProject/examples/hello.cpp
+Create directory /home/picaud/Temp/DemoProject/sandbox
+Create file      /home/picaud/Temp/DemoProject/sandbox/meson.build
+Create file      /home/picaud/Temp/DemoProject/sandbox/hello.cpp
 Create directory /home/picaud/Temp/DemoProject/doc
 Create directory /home/picaud/Temp/DemoProject/doc/figures
 Create file      /home/picaud/Temp/DemoProject/doc/meson.build
@@ -137,7 +137,7 @@ Found ninja-1.8.2 at /usr/bin/ninja
 --- COMPILE ---
 
 [1/12] Compiling C++ object 'src/DemoProject/28a1d24@@DemoProject@sha/hello.cpp.o'.
-[2/12] Compiling C++ object 'examples/c590b3c@@hello@exe/hello.cpp.o'.
+[2/12] Compiling C++ object 'sandbox/c590b3c@@hello@exe/hello.cpp.o'.
 [3/12] Compiling C++ object 'bin/51a1f05@@hello@exe/hello.cpp.o'.
 [4/12] Compiling C++ object 'test/9f86d08@@hello_exe@exe/.._subprojects_googletest-release-1.8.0_googletest_src_gtest_main.cc.o'.
 [5/12] Compiling C++ object 'test/9f86d08@@hello_exe@exe/hello.cpp.o'.
@@ -149,7 +149,7 @@ Searching for include files...
 Searching for files in directory /home/picaud/Temp/DemoProject/src/DemoProject
 Searching for files in directory /home/picaud/Temp/DemoProject/bin
 Searching for example files...
-Searching for files in directory /home/picaud/Temp/DemoProject/examples
+Searching for files in directory /home/picaud/Temp/DemoProject/sandbox
 Searching for images...
 Searching for files in directory /home/picaud/Temp/DemoProject/doc/figures
 Searching for dot files...
@@ -248,7 +248,7 @@ Running dot for graph 1/1
 lookup cache used 6/65536 hits=10 misses=6
 finished...
 [9/12] Generating symbol file 'src/DemoProject/28a1d24@@DemoProject@sha/libDemoProject.so.symbols'.
-[10/12] Linking target examples/hello.
+[10/12] Linking target sandbox/hello.
 [11/12] Linking target bin/hello.
 [12/12] Linking target test/hello_exe.
 
