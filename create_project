@@ -27,7 +27,7 @@ done
 if [ $ERROR == 1 ]; then
     echo "Usage: $(basename $0) PROJECT_ROOT_DIRECTORY -f"
     echo ""
-    echo "   Create a directory 'PROJECT_ROOT_DIRECTORY' and populate it with some configuration files."
+    echo "   Creates a directory 'PROJECT_ROOT_DIRECTORY' and populate it with some configuration files."
     echo "   By default *never* overwrite files, use -f to force overwriting"
     exit 0
 fi
