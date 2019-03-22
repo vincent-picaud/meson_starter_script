@@ -103,6 +103,7 @@ if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
 @ProjectSkeleton@_sources = ['hello.cpp']
 
 @ProjectSkeleton@_lib = library('@ProjectSkeleton@',
+				include_directories : inc,
 				install : true,
 				sources: [@ProjectSkeleton@_headers,@ProjectSkeleton@_sources])
 

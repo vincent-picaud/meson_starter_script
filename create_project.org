@@ -30,6 +30,7 @@ subdir('@ProjectSkeleton@')
 @ProjectSkeleton@_sources = ['hello.cpp']
 
 @ProjectSkeleton@_lib = library('@ProjectSkeleton@',
+				include_directories : inc,
 				install : true,
 				sources: [@ProjectSkeleton@_headers,@ProjectSkeleton@_sources])
 
