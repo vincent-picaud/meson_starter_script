@@ -8,6 +8,9 @@ A simple script to create a [[https://mesonbuild.com][Meson]] C++ project skelet
 
 *Usage:*
 
+# Note: as github does not print command output unless we repeate the
+# ":exports both" statement
+
 #+BEGIN_SRC sh :exports both 
 ./create_project --help 
 #+END_SRC 
@@ -26,7 +29,7 @@ Usage: create_project PROJECT_ROOT_DIRECTORY -f
 
 To create a skeleton project in =/tmp/MyProject=, run
 
-#+BEGIN_SRC sh 
+#+BEGIN_SRC sh :exports both  
 ./create_project /tmp/MyProject 
 #+END_SRC 
 
@@ -111,7 +114,7 @@ The created =hello= files are as follows.
 
 **** The =MyProject= library
 
-#+BEGIN_SRC sh
+#+BEGIN_SRC sh :exports both 
 cat /tmp/MyProject/src/MyProject/hello.hpp
 #+END_SRC
 
@@ -133,7 +136,7 @@ namespace MyProject {
 }
 #+END_EXAMPLE
 
-#+BEGIN_SRC sh
+#+BEGIN_SRC sh :exports both 
 cat /tmp/MyProject/src/MyProject/hello.cpp
 #+END_SRC
 
@@ -153,7 +156,7 @@ namespace MyProject {
 
 **** The project unit tests
 
-#+BEGIN_SRC sh
+#+BEGIN_SRC sh :exports both 
 cat /tmp/MyProject/test/hello.cpp
 #+END_SRC
 
@@ -173,7 +176,7 @@ TEST(Hello, demo)
 
 **** The =bin/hello.cpp= file
 
-#+BEGIN_SRC sh
+#+BEGIN_SRC sh :exports both 
 cat /tmp/MyProject/bin/hello.cpp
 #+END_SRC
 
@@ -194,7 +197,7 @@ int main()
 
 **** The =sandbox/hello.cpp= file
 
-#+BEGIN_SRC sh
+#+BEGIN_SRC sh :exports both 
 cat /tmp/MyProject/bin/hello.cpp
 #+END_SRC
 
@@ -218,7 +221,7 @@ int main()
 To create your project build directory with =/tmp/InstallDirectory= as
 installation directory run:
 
-#+BEGIN_SRC sh
+#+BEGIN_SRC sh :exports both 
 cd /tmp/MyProject
 meson build --prefix=/tmp/InstallDirectory
 #+END_SRC
@@ -398,7 +401,7 @@ finished...
 #+BEGIN_NOTES
 *Note:*
 You can visualize the generated documentation with:
-#+BEGIN_SRC sh
+#+BEGIN_SRC sh :exports both 
 chromium doc/html/index.html 
 #+END_SRC 
 #+END_NOTES
@@ -406,7 +409,7 @@ chromium doc/html/index.html
 ** Running unit tests
 
 To run unit tests, run:
-#+BEGIN_SRC sh
+#+BEGIN_SRC sh :exports both 
 ninja test
 #+END_SRC
 
@@ -430,7 +433,7 @@ Full log written to /tmp/MyProject/build/meson-logs/testlog.txt
 ** Project installation
 
 Finally, if you want to install your project, run:
-#+BEGIN_SRC sh
+#+BEGIN_SRC sh :exports both 
 ninja install 
 #+END_SRC
 
