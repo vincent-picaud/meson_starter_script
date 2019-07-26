@@ -8,7 +8,7 @@ A simple script to create a [[https://mesonbuild.com][Meson]] C++ project skelet
 
 *Usage:*
 
-#+BEGIN_SRC sh 
+#+BEGIN_SRC sh :exports both 
 ./create_project --help 
 #+END_SRC 
 
