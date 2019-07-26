@@ -22,6 +22,8 @@ Usage: create_project PROJECT_ROOT_DIRECTORY -f
 
 * Detailed example
 
+** Project creation
+
 To create a skeleton project in =/tmp/MyProject=, run
 
 #+BEGIN_SRC sh 
@@ -103,6 +105,116 @@ The =create_project= never overwrite files unless you use the =-f= flag
 #+END_SRC
 #+END_NOTES
 
+*** Project file listings 
+
+The created =hello= files are as follows.
+
+**** The =MyProject= library
+
+#+BEGIN_SRC sh
+cat /tmp/MyProject/src/MyProject/hello.hpp
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_EXAMPLE
+/// @file
+/// @brief Hello lib file
+include <string>
+
+namespace MyProject {
+
+  /// @brief A function 
+  ///
+  /// A bibtex reference example @cite pakkanen_meson_build_system
+  ///
+  /// Usage example @include hello.cpp
+  std::string hello();
+    
+}
+#+END_EXAMPLE
+
+#+BEGIN_SRC sh
+cat /tmp/MyProject/src/MyProject/hello.cpp
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_EXAMPLE
+
+include "hello.hpp"
+
+namespace MyProject {
+
+  std::string hello() {
+    return "Hello MyProject";
+  };
+    
+}
+#+END_EXAMPLE
+
+**** The project unit tests
+
+#+BEGIN_SRC sh
+cat /tmp/MyProject/test/hello.cpp
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_EXAMPLE
+
+include "MyProject/hello.hpp"
+include <gtest/gtest.h>
+
+using namespace MyProject;
+
+TEST(Hello, demo)
+{
+  ASSERT_EQ(hello(),"Hello MyProject");
+}
+#+END_EXAMPLE
+
+**** The =bin/hello.cpp= file
+
+#+BEGIN_SRC sh
+cat /tmp/MyProject/bin/hello.cpp
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_EXAMPLE
+/// @file
+/// @brief Hello executable file
+include "MyProject/hello.hpp"
+include <iostream>
+
+using namespace MyProject;
+
+int main()
+{
+  std::cout << hello() << std::endl;
+}
+#+END_EXAMPLE
+
+**** The =sandbox/hello.cpp= file
+
+#+BEGIN_SRC sh
+cat /tmp/MyProject/bin/hello.cpp
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_EXAMPLE
+/// @file
+/// @brief Hello executable file
+include "MyProject/hello.hpp"
+include <iostream>
+
+using namespace MyProject;
+
+int main()
+{
+  std::cout << hello() << std::endl;
+}
+#+END_EXAMPLE
+
+** Build dir creation
+
 To create your project build directory with =/tmp/InstallDirectory= as
 installation directory run:
 
@@ -151,6 +263,8 @@ Configuring Doxyfile using configuration
 Build targets in project: 5
 Found ninja-1.8.2 at /usr/bin/ninja
 #+END_EXAMPLE
+
+** Project compilation 
 
 To compile your project (with its doxygen documentation) type:
 
@@ -281,6 +395,16 @@ finished...
 [12/12] Linking target test/hello_exe.
 #+END_EXAMPLE
 
+#+BEGIN_NOTES
+*Note:*
+You can visualize the generated documentation with:
+#+BEGIN_SRC sh
+chromium doc/html/index.html 
+#+END_SRC 
+#+END_NOTES
+
+** Running unit tests
+
 To run unit tests, run:
 #+BEGIN_SRC sh
 ninja test
@@ -302,6 +426,8 @@ Timeout:               0
 
 Full log written to /tmp/MyProject/build/meson-logs/testlog.txt
 #+END_EXAMPLE
+
+** Project installation
 
 Finally, if you want to install your project, run:
 #+BEGIN_SRC sh
