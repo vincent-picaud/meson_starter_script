@@ -17,10 +17,10 @@ A simple script to create a [[https://mesonbuild.com][Meson]] C++ project skelet
 
 #+RESULTS:
 #+BEGIN_EXAMPLE
-Usage: create_project PROJECT_ROOT_DIRECTORY -f
+Usage: create_project PROJECT_ROOT_DIRECTORY [-f]
 
    Creates a directory 'PROJECT_ROOT_DIRECTORY' and populates it with some configuration files.
-   By default *never* overwrite files, use -f to force overwriting
+   By default *never* overwrite files, use the -f extra flag to force overwriting
 #+END_EXAMPLE
 
 * Detailed example
@@ -92,130 +92,6 @@ You get a basic Meson project with the following directory hierarchy:
 	+ meson.build
 #+END_EXAMPLE
 
-#+BEGIN_NOTES
-*Note:* if you rerun 
-#+BEGIN_SRC sh
-./create_project /tmp/MyProject
-#+END_SRC
-you will get this error message:
-#+BEGIN_EXAMPLE
-Create directory /tmp/MyProject
-File /tmp/MyProject/meson.build already exists, aborted! (you can use -f to force overwrite)
-#+END_EXAMPLE
-The =create_project= never overwrite files unless you use the =-f= flag
-#+BEGIN_SRC sh
-./create_project /tmp/MyProject -f
-#+END_SRC
-#+END_NOTES
-
-*** Project file listings 
-
-The created =hello= files are as follows.
-
-**** The =MyProject= library
-
-#+BEGIN_SRC sh :exports both 
-cat /tmp/MyProject/src/MyProject/hello.hpp
-#+END_SRC
-
-#+RESULTS:
-#+BEGIN_EXAMPLE
-/// @file
-/// @brief Hello lib file
-include <string>
-
-namespace MyProject {
-
-  /// @brief A function 
-  ///
-  /// A bibtex reference example @cite pakkanen_meson_build_system
-  ///
-  /// Usage example @include hello.cpp
-  std::string hello();
-    
-}
-#+END_EXAMPLE
-
-#+BEGIN_SRC sh :exports both 
-cat /tmp/MyProject/src/MyProject/hello.cpp
-#+END_SRC
-
-#+RESULTS:
-#+BEGIN_EXAMPLE
-
-include "hello.hpp"
-
-namespace MyProject {
-
-  std::string hello() {
-    return "Hello MyProject";
-  };
-    
-}
-#+END_EXAMPLE
-
-**** The project unit tests
-
-#+BEGIN_SRC sh :exports both 
-cat /tmp/MyProject/test/hello.cpp
-#+END_SRC
-
-#+RESULTS:
-#+BEGIN_EXAMPLE
-
-include "MyProject/hello.hpp"
-include <gtest/gtest.h>
-
-using namespace MyProject;
-
-TEST(Hello, demo)
-{
-  ASSERT_EQ(hello(),"Hello MyProject");
-}
-#+END_EXAMPLE
-
-**** The =bin/hello.cpp= file
-
-#+BEGIN_SRC sh :exports both 
-cat /tmp/MyProject/bin/hello.cpp
-#+END_SRC
-
-#+RESULTS:
-#+BEGIN_EXAMPLE
-/// @file
-/// @brief Hello executable file
-include "MyProject/hello.hpp"
-include <iostream>
-
-using namespace MyProject;
-
-int main()
-{
-  std::cout << hello() << std::endl;
-}
-#+END_EXAMPLE
-
-**** The =sandbox/hello.cpp= file
-
-#+BEGIN_SRC sh :exports both 
-cat /tmp/MyProject/bin/hello.cpp
-#+END_SRC
-
-#+RESULTS:
-#+BEGIN_EXAMPLE
-/// @file
-/// @brief Hello executable file
-include "MyProject/hello.hpp"
-include <iostream>
-
-using namespace MyProject;
-
-int main()
-{
-  std::cout << hello() << std::endl;
-}
-#+END_EXAMPLE
-
 ** Build dir creation
 
 To create your project build directory with =/tmp/InstallDirectory= as
@@ -271,7 +147,7 @@ Found ninja-1.8.2 at /usr/bin/ninja
 
 To compile your project (with its doxygen documentation) type:
 
-#+BEGIN_SRC sh
+#+BEGIN_SRC sh :exports both 
 cd build
 ninja 
 #+END_SRC
@@ -398,13 +274,11 @@ finished...
 [12/12] Linking target test/hello_exe.
 #+END_EXAMPLE
 
-#+BEGIN_NOTES
 *Note:*
 You can visualize the generated documentation with:
-#+BEGIN_SRC sh :exports both 
+#+BEGIN_SRC sh :exports code
 chromium doc/html/index.html 
 #+END_SRC 
-#+END_NOTES
 
 ** Running unit tests
 
@@ -502,7 +376,112 @@ Installing /tmp/MyProject/src/MyProject/hello.hpp to /tmp/InstallDirectory/inclu
 #+END_EXAMPLE
 
 * Further information
+** Project file listings 
+*** The =MyProject= library
 
+#+BEGIN_SRC sh :exports both 
+cat /tmp/MyProject/src/MyProject/hello.hpp
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_EXAMPLE
+/// @file
+/// @brief Hello lib file
+include <string>
+
+namespace MyProject {
+
+  /// @brief A function 
+  ///
+  /// A bibtex reference example @cite pakkanen_meson_build_system
+  ///
+  /// Usage example @include hello.cpp
+  std::string hello();
+    
+}
+#+END_EXAMPLE
+
+#+BEGIN_SRC sh :exports both 
+cat /tmp/MyProject/src/MyProject/hello.cpp
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_EXAMPLE
+
+include "hello.hpp"
+
+namespace MyProject {
+
+  std::string hello() {
+    return "Hello MyProject";
+  };
+    
+}
+#+END_EXAMPLE
+
+*** The project unit tests
+
+#+BEGIN_SRC sh :exports both 
+cat /tmp/MyProject/test/hello.cpp
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_EXAMPLE
+
+include "MyProject/hello.hpp"
+include <gtest/gtest.h>
+
+using namespace MyProject;
+
+TEST(Hello, demo)
+{
+  ASSERT_EQ(hello(),"Hello MyProject");
+}
+#+END_EXAMPLE
+
+*** The =bin/hello.cpp= file
+
+#+BEGIN_SRC sh :exports both 
+cat /tmp/MyProject/bin/hello.cpp
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_EXAMPLE
+/// @file
+/// @brief Hello executable file
+include "MyProject/hello.hpp"
+include <iostream>
+
+using namespace MyProject;
+
+int main()
+{
+  std::cout << hello() << std::endl;
+}
+#+END_EXAMPLE
+
+*** The =sandbox/hello.cpp= file
+
+#+BEGIN_SRC sh :exports both 
+cat /tmp/MyProject/bin/hello.cpp
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_EXAMPLE
+/// @file
+/// @brief Hello executable file
+include "MyProject/hello.hpp"
+include <iostream>
+
+using namespace MyProject;
+
+int main()
+{
+  std::cout << hello() << std::endl;
+}
+#+END_EXAMPLE
+
+** More about Meson
 Some Meson official site links:
 - [[https://mesonbuild.com/howtox.html][How do I do X in Meson?]]
 - [[http://mesonbuild.com/Reference-manual.html][Meson's reference manual]]
