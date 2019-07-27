@@ -1,10 +1,14 @@
+#+BLOG: wordpress
+#+POSTID: 862
+#+DATE: [2019-07-27 Sat 15:13]
 #+TITLE: A Meson starter script for C++ projects
+#+CATEGORY: Meson
 #+PROPERTY: header-args:sh :eval no-export :results output :wrap EXAMPLE :exports both :session *meson_sh*
 
 * What is it?
 
 A simple script to create a [[https://mesonbuild.com][Meson]] C++ project skeleton with [[http://www.doxygen.nl/][Doxygen]] and
-[[https://github.com/google/googletest][gtest]] configured.
+[[https://github.com/google/googletest][gtest]] configured. The whole script can be found [[https://github.com/vincent-picaud/meson_starter_script][in this GitHub repo]].
 
 *Usage:*
 
