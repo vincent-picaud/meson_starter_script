@@ -434,7 +434,7 @@ doxyfile = configure_file(input: 'Doxyfile.in',
                           configuration: cdata,
                           install: false)
 
-datadir = join_paths(get_option('datadir'), 'doc')
+datadir = join_paths(get_option('datadir'), 'doc','@ProjectSkeleton@')
 
 html_target = custom_target('doc',
 			    build_always_stale : true,
