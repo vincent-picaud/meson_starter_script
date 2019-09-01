@@ -283,7 +283,7 @@ if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
     echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 /// @file
-/// @brief Hello executable file
+/// @brief Hello bin/ file
 #include "@ProjectSkeleton@/hello.hpp"
 #include <iostream>
 
@@ -329,8 +329,6 @@ CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/sandbox/hello.cpp"
 if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
     echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
-/// @file
-/// @brief Hello example file
 #include "@ProjectSkeleton@/hello.hpp"
 #include <iostream>
 
@@ -377,7 +375,7 @@ if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
     echo "Create file      $CURRENT_FILE" 
     more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
 /// @file
-/// @brief Hello example file
+/// @brief Hello examples/ file
 #include "@ProjectSkeleton@/hello.hpp"
 #include <iostream>
 
@@ -1253,7 +1251,7 @@ WARN_LOGFILE           =
 # Note: If this tag is empty the current directory is searched.
 
 INPUT                  = "@PROJECT_SRCDIR@" \
-                         "@PROJECT_BINDIR@"
+                         "@PROJECT_BINDIR@" 
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses

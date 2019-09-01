@@ -93,21 +93,21 @@ You get a basic Meson project with the following directory hierarchy:
 + meson.build                    <- root meson file
 
 + src/
-	+ MyProject/             <- your "MyProject" library (installed)
+	+ MyProject/             <- your "MyProject" library (installed, scanned by Doxygen)
 		+ hello.cpp
 		+ hello.hpp
 		+ meson.build
 	+ meson.build
 
-+ bin/                           <- binaries (installed)
++ bin/                           <- binaries (installed, scanned by Doxygen)
 	+ meson.build
 	+ hello.cpp
 
-+ sandbox/                       <- "sandbox" binaries (not installed)
++ sandbox/                       <- "sandbox" binaries (not installed, not scanned by Doxygen)
 	+ meson.build
 	+ hello.cpp
 
-+ examples/                      <- "examples" binaries (not installed, used by Doxygen doc)
++ examples/                      <- "examples" binaries (not installed, Doxygen examples dir)
 	+ meson.build
 	+ hello.cpp
 

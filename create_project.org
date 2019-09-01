@@ -102,7 +102,7 @@ hello_exe = executable('hello',
  #+NAME: cpp_meson_bin_hello_cpp
  #+BEGIN_SRC cpp
 /// @file
-/// @brief Hello executable file
+/// @brief Hello bin/ file
 #include "@ProjectSkeleton@/hello.hpp"
 #include <iostream>
 
@@ -127,8 +127,6 @@ hello_exe = executable('hello',
 
  #+NAME: cpp_meson_sandbox_hello_cpp
  #+BEGIN_SRC cpp
-/// @file
-/// @brief Hello example file
 #include "@ProjectSkeleton@/hello.hpp"
 #include <iostream>
 
@@ -153,7 +151,7 @@ hello_exe = executable('hello',
  #+NAME: cpp_meson_examples_hello_cpp
  #+BEGIN_SRC cpp
 /// @file
-/// @brief Hello example file
+/// @brief Hello examples/ file
 #include "@ProjectSkeleton@/hello.hpp"
 #include <iostream>
 
@@ -1008,7 +1006,7 @@ WARN_LOGFILE           =
 # Note: If this tag is empty the current directory is searched.
 
 INPUT                  = "@PROJECT_SRCDIR@" \
-                         "@PROJECT_BINDIR@"
+                         "@PROJECT_BINDIR@" 
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
