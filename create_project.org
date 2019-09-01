@@ -1,5 +1,6 @@
 #+TITLE: The bash script generator 
 
+* meson.build
 
 #+NAME: cpp_meson
 #+BEGIN_SRC meson
@@ -14,8 +15,11 @@ subdir('src')
 subdir('test')
 subdir('bin')
 subdir('sandbox')
+#subdir('example)
 subdir('doc')
 #+END_SRC
+
+* src/meson.build
 
 #+NAME: cpp_meson_src
 #+BEGIN_SRC meson
@@ -24,8 +28,12 @@ inc = include_directories('.')
 subdir('@ProjectSkeleton@')
 #+END_SRC
 
-#+NAME: cpp_meson_src_project
-#+BEGIN_SRC meson
+** src/PROJECT/
+
+*** meson.build
+
+ #+NAME: cpp_meson_src_project
+ #+BEGIN_SRC meson
 @ProjectSkeleton@_headers = ['hello.hpp']
 @ProjectSkeleton@_sources = ['hello.cpp']
 
@@ -40,10 +48,12 @@ subdir('@ProjectSkeleton@')
 install_headers(@ProjectSkeleton@_headers,
 		 subdir : '@ProjectSkeleton@')
 
-#+END_SRC
+ #+END_SRC
 
-#+NAME: cpp_meson_src_project_hello_hpp
-#+BEGIN_SRC cpp :eval never
+*** hello.hpp 
+
+ #+NAME: cpp_meson_src_project_hello_hpp
+ #+BEGIN_SRC cpp :eval never
 /// @file
 /// @brief Hello lib file
 #include <string>
@@ -58,10 +68,12 @@ namespace @ProjectSkeleton@ {
   std::string hello();
     
 }
-#+END_SRC
+ #+END_SRC
 
-#+NAME: cpp_meson_src_project_hello_cpp
-#+BEGIN_SRC cpp :eval never
+*** hello.cpp 
+
+ #+NAME: cpp_meson_src_project_hello_cpp
+ #+BEGIN_SRC cpp :eval never
 #include "hello.hpp"
 
 namespace @ProjectSkeleton@ {
@@ -71,10 +83,14 @@ namespace @ProjectSkeleton@ {
   };
     
 }
-#+END_SRC
+ #+END_SRC
 
-#+NAME: cpp_meson_subprojects_gtest
-#+BEGIN_SRC txt
+* subprojects 
+
+** gtest
+
+ #+NAME: cpp_meson_subprojects_gtest
+ #+BEGIN_SRC txt
 [wrap-file]
 directory = googletest-release-1.8.0
 
@@ -85,10 +101,10 @@ source_hash = f3ed3b58511efd272eb074a3a6d6fb79d7c2e6a0e374323d1e6bcbcc1ef141bf
 patch_url = https://wrapdb.mesonbuild.com/v1/projects/gtest/1.8.0/5/get_zip
 patch_filename = gtest-1.8.0-5-wrap.zip
 patch_hash = 7eeaede4aa2610a403313b74e04baf91ccfbaef03203d8f56312e22df1834ec5
-#+END_SRC
+ #+END_SRC
 
-#+NAME: cpp_meson_test
-#+BEGIN_SRC meson
+ #+NAME: cpp_meson_test
+ #+BEGIN_SRC meson
 test_array = [['hello_test','hello_exe','hello.cpp']]
 
 foreach test : test_array
@@ -98,10 +114,10 @@ foreach test : test_array
 		  dependencies
  		  : [ @ProjectSkeleton@_dep, gtest_dep ]))
 endforeach
-#+END_SRC
+ #+END_SRC
 
-#+NAME: cpp_meson_test_hello_cpp
-#+BEGIN_SRC meson
+ #+NAME: cpp_meson_test_hello_cpp
+ #+BEGIN_SRC meson
 #include "@ProjectSkeleton@/hello.hpp"
 #include <gtest/gtest.h>
 
@@ -111,18 +127,24 @@ TEST(Hello, demo)
 {
   ASSERT_EQ(hello(),"Hello @ProjectSkeleton@");
 }
-#+END_SRC
+ #+END_SRC
 
-#+NAME: cpp_meson_bin 
-#+BEGIN_SRC meson
+* bin/
+
+** meson.build
+
+ #+NAME: cpp_meson_bin 
+ #+BEGIN_SRC meson
 hello_exe = executable('hello',
 		       'hello.cpp',
 		       install : true,
 		       dependencies : [@ProjectSkeleton@_dep])
-#+END_SRC
+ #+END_SRC
 
-#+NAME: cpp_meson_bin_hello_cpp
-#+BEGIN_SRC cpp
+** hello.cpp 
+
+ #+NAME: cpp_meson_bin_hello_cpp
+ #+BEGIN_SRC cpp
 /// @file
 /// @brief Hello executable file
 #include "@ProjectSkeleton@/hello.hpp"
@@ -134,17 +156,19 @@ int main()
 {
   std::cout << hello() << std::endl;
 }
-#+END_SRC
+ #+END_SRC
 
-#+NAME: cpp_meson_sandbox 
-#+BEGIN_SRC meson
+ #+NAME: cpp_meson_sandbox 
+ #+BEGIN_SRC meson
 hello_exe = executable('hello',
 		       'hello.cpp',
 		       dependencies : [@ProjectSkeleton@_dep])
-#+END_SRC
+ #+END_SRC
 
-#+NAME: cpp_meson_sandbox_hello_cpp
-#+BEGIN_SRC cpp
+** hello.cpp 
+
+ #+NAME: cpp_meson_sandbox_hello_cpp
+ #+BEGIN_SRC cpp
 /// @file
 /// @brief Hello example file
 #include "@ProjectSkeleton@/hello.hpp"
@@ -156,10 +180,14 @@ int main()
 {
   std::cout << hello() << std::endl;
 }
-#+END_SRC
+ #+END_SRC
 
-#+NAME: cpp_meson_doc
-#+BEGIN_SRC meson
+* doc/ 
+
+** meson.build 
+
+ #+NAME: cpp_meson_doc
+ #+BEGIN_SRC meson
 doxygen = find_program('doxygen', required : false)
 
 if not doxygen.found()
@@ -196,10 +224,12 @@ html_target = custom_target('doc',
                             install: true,
                             install_dir: datadir)
 
-#+END_SRC
+ #+END_SRC
 
-#+NAME: cpp_meson_doc_doxyfile
-#+BEGIN_SRC txt
+** Doxyfile.in 
+
+ #+NAME: cpp_meson_doc_doxyfile
+ #+BEGIN_SRC txt
 # Doxyfile 1.8.13
 
 # This file describes the settings to be used by the documentation system
@@ -2633,19 +2663,21 @@ GENERATE_LEGEND        = YES
 
 DOT_CLEANUP            = YES
 
-#+END_SRC
+ #+END_SRC
 
-#+NAME: cpp_meson_doc_bibtex
-#+BEGIN_SRC bibtex 
+** bibliography.bib 
+
+ #+NAME: cpp_meson_doc_bibtex
+ #+BEGIN_SRC bibtex 
 @manual{pakkanen_meson_build_system,
   author =	 "Jussi Pakkanen",
   title =	 "The Meson Build System",
   url =		 "https://mesonbuild.com/Getting-meson.html",
 }
 
-#+END_SRC
+ #+END_SRC
 
-#+BEGIN_SRC bash :noweb yes :tangle create_project :shebang "#!/bin/bash" :tangle-mode (identity #o555)
+ #+BEGIN_SRC bash :exports none :noweb yes :tangle create_project :shebang "#!/bin/bash" :tangle-mode (identity #o555)
 # AUTOMATICALLY GENERATED (TANGLED) FROM create_project.org 
 # -> DO NOT MODIFY DIRECTLY *THIS* FILE
 #
@@ -2947,8 +2979,8 @@ else
     echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
     exit 1
 fi
-#+END_SRC
+ #+END_SRC
 
-#+RESULTS:
+ #+RESULTS:
 
 
