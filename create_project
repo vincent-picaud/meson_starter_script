@@ -437,11 +437,11 @@ doxyfile = configure_file(input: 'Doxyfile.in',
 datadir = join_paths(get_option('datadir'), 'doc','@ProjectSkeleton@')
 
 html_target = custom_target('doc',
-			    build_always_stale : true,
+			    build_always_stale : not meson.is_subproject(),
                             input: doxyfile,
                             output: 'html',
                             command: [doxygen, doxyfile],
-                            install: true,
+                            install: not meson.is_subproject(),
                             install_dir: datadir)
 
 //MY_CODE_STREAM
