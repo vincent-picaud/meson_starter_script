@@ -90,31 +90,38 @@ You get a basic Meson project with the following directory hierarchy:
 
 #+RESULTS:
 #+BEGIN_EXAMPLE
-+ bin/                           <- binaries (installed)
-	+ hello.cpp
-	+ meson.build
-+ doc/
-	+ bibliography.bib       <- doxygen + bibliography file (installed)  
-	+ Doxyfile.in
-	+ meson.build
-+ sandbox/                       <- "sandbox" binaries (not installed)
-	+ hello.cpp
-	+ meson.build
-+ examples/                       <- "examples" binaries (not installed, used by Doxygen doc)
-	+ hello.cpp
-	+ meson.build
 + meson.build                    <- root meson file
+
 + src/
 	+ MyProject/             <- your "MyProject" library (installed)
 		+ hello.cpp
 		+ hello.hpp
 		+ meson.build
 	+ meson.build
+
++ bin/                           <- binaries (installed)
+	+ meson.build
+	+ hello.cpp
+
++ sandbox/                       <- "sandbox" binaries (not installed)
+	+ meson.build
+	+ hello.cpp
+
++ examples/                      <- "examples" binaries (not installed, used by Doxygen doc)
+	+ meson.build
+	+ hello.cpp
+
++ test/                          <- unit tests (not installed)
+	+ meson.build
+	+ hello.cpp
+
++ doc/
+	+ meson.build
+	+ bibliography.bib       <- doxygen + bibliography file (installed)  
+	+ Doxyfile.in
+
 + subprojects/                   <- subprojects, here gtest (not installed)
 	+ gtest.wrap
-+ test/                          <- unit tests (not installed)
-	+ hello.cpp
-	+ meson.build
 #+END_EXAMPLE
 
 ** Build dir creation
