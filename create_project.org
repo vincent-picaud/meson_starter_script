@@ -110,7 +110,7 @@ using namespace @ProjectSkeleton@;
 
 int main()
 {
-  std::cout << hello() << std::endl;
+  std::cout << hello()  << " from bin/ " << std::endl;
 }
  #+END_SRC
 
@@ -136,7 +136,7 @@ using namespace @ProjectSkeleton@;
 
 int main()
 {
-  std::cout << hello() << std::endl;
+  std::cout << hello() << " from sandbox/ " << std::endl;
 }
  #+END_SRC
 
