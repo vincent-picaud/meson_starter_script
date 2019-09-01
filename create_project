@@ -57,6 +57,7 @@ subdir('src')
 subdir('test')
 subdir('bin')
 subdir('sandbox')
+subdir('examples')
 subdir('doc')
 //MY_CODE_STREAM
     sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
@@ -290,7 +291,7 @@ using namespace @ProjectSkeleton@;
 
 int main()
 {
-  std::cout << hello() << std::endl;
+  std::cout << hello()  << " from bin/ " << std::endl;
 }
 //MY_CODE_STREAM
     sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
@@ -337,7 +338,54 @@ using namespace @ProjectSkeleton@;
 
 int main()
 {
-  std::cout << hello() << std::endl;
+  std::cout << hello() << " from sandbox/ " << std::endl;
+}
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#================================================================
+
+echo "Create directory $PROJECT_ROOT_DIRECTORY/examples" 
+mkdir -p "$PROJECT_ROOT_DIRECTORY/examples"
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/examples/meson.build"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Create file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+hello_exe = executable('hello',
+		       'hello.cpp',
+		       dependencies : [@ProjectSkeleton@_dep])
+//MY_CODE_STREAM
+    sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
+else 
+    echo "File $CURRENT_FILE already exists, aborted! (you can use -f to force overwrite)" 
+    exit 1
+fi
+
+#----------------
+
+CURRENT_FILE="$PROJECT_ROOT_DIRECTORY/examples/hello.cpp"
+
+if [ "$FORCE" -eq 1 ] || [ ! -f "$CURRENT_FILE" ]; then
+    echo "Create file      $CURRENT_FILE" 
+    more > "$CURRENT_FILE" <<'//MY_CODE_STREAM' 
+/// @file
+/// @brief Hello example file
+#include "@ProjectSkeleton@/hello.hpp"
+#include <iostream>
+
+using namespace @ProjectSkeleton@;
+
+int main()
+{
+  std::cout << hello() << " from examples/ " << std::endl;
 }
 //MY_CODE_STREAM
     sed -i "s/@ProjectSkeleton@/$PROJECT_NAME/g" "$CURRENT_FILE"
@@ -379,6 +427,7 @@ cdata.set('PROJECT_NAME',meson.project_name())
 cdata.set('PROJECT_SRCDIR', join_paths(meson.source_root(),'src',meson.project_name()))
 cdata.set('PROJECT_BINDIR', join_paths(meson.source_root(),'bin'))
 cdata.set('PROJECT_SANDBOXDIR', join_paths(meson.source_root(),'sandbox'))
+cdata.set('PROJECT_EXAMPLESDIR', join_paths(meson.source_root(),'examples'))
 cdata.set('PROJECT_DOCDIR', join_paths(meson.source_root(),'doc'))
 cdata.set('PROJECT_TESTDIR', join_paths(meson.source_root(),'test'))
 
@@ -1276,7 +1325,7 @@ EXCLUDE_SYMBOLS        =
 # that contain example code fragments that are included (see the \include
 # command).
 
-EXAMPLE_PATH           = "@PROJECT_SANDBOXDIR@"
+EXAMPLE_PATH           = "@PROJECT_EXAMPLESDIR@"
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp and
