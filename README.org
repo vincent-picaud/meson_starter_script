@@ -699,13 +699,13 @@ int main()
 *** The =sandbox/hello.cpp= file
 
 #+BEGIN_SRC sh :exports both 
-cat /tmp/MyProject/bin/hello.cpp
+cat /tmp/MyProject/sandbox/hello.cpp
 #+END_SRC
 
 #+RESULTS:
 #+BEGIN_EXAMPLE
 /// @file
-/// @brief Hello executable file
+/// @brief Hello example file
 include "MyProject/hello.hpp"
 include <iostream>
 
@@ -713,7 +713,28 @@ using namespace MyProject;
 
 int main()
 {
-  std::cout << hello()  << " from bin/ " << std::endl;
+  std::cout << hello() << " from sandbox/ " << std::endl;
+}
+#+END_EXAMPLE
+
+*** The =examples/hello.cpp= file
+
+#+BEGIN_SRC sh :exports both 
+cat /tmp/MyProject/examples/hello.cpp
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_EXAMPLE
+/// @file
+/// @brief Hello example file
+include "MyProject/hello.hpp"
+include <iostream>
+
+using namespace MyProject;
+
+int main()
+{
+  std::cout << hello() << " from examples/ " << std::endl;
 }
 #+END_EXAMPLE
 
