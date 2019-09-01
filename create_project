@@ -422,12 +422,12 @@ else
 endif
 
 cdata.set('PROJECT_NAME',meson.project_name())
-cdata.set('PROJECT_SRCDIR', join_paths(meson.source_root(),'src',meson.project_name()))
-cdata.set('PROJECT_BINDIR', join_paths(meson.source_root(),'bin'))
-cdata.set('PROJECT_SANDBOXDIR', join_paths(meson.source_root(),'sandbox'))
-cdata.set('PROJECT_EXAMPLESDIR', join_paths(meson.source_root(),'examples'))
-cdata.set('PROJECT_DOCDIR', join_paths(meson.source_root(),'doc'))
-cdata.set('PROJECT_TESTDIR', join_paths(meson.source_root(),'test'))
+cdata.set('PROJECT_SRCDIR', join_paths(meson.current_source_dir(),'..','src',meson.project_name()))
+cdata.set('PROJECT_BINDIR', join_paths(meson.current_source_dir(),'..','bin'))
+cdata.set('PROJECT_SANDBOXDIR', join_paths(meson.current_source_dir(),'..','sandbox'))
+cdata.set('PROJECT_EXAMPLESDIR', join_paths(meson.current_source_dir(),'..','examples'))
+cdata.set('PROJECT_DOCDIR', meson.current_source_dir())
+cdata.set('PROJECT_TESTDIR', join_paths(meson.current_source_dir(),'..','test'))
 
 doxyfile = configure_file(input: 'Doxyfile.in',
                           output: 'Doxyfile',
