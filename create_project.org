@@ -202,6 +202,7 @@ doxyfile = configure_file(input: 'Doxyfile.in',
 datadir = join_paths(get_option('datadir'), 'doc')
 
 html_target = custom_target('doc',
+			    build_always_stale : true,
                             input: doxyfile,
                             output: 'html',
                             command: [doxygen, doxyfile],
