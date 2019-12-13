@@ -16,30 +16,15 @@ A simple script to create a [[https://mesonbuild.com][Meson]] C++ project skelet
 # ":exports both" statement
 
 #+BEGIN_SRC sh :exports both 
-./create_project --help 
+./create_project 
 #+END_SRC 
 
 #+RESULTS:
 #+BEGIN_EXAMPLE
+Usage: create_project PROJECT_ROOT_DIRECTORY [-f]
 
-Create directory --help
-Usage: mkdir [OPTION]... DIRECTORY...
-Create the DIRECTORY(ies), if they do not already exist.
-
-Mandatory arguments to long options are mandatory for short options too.
-  -m, --mode=MODE   set file mode (as in chmod), not a=rwx - umask
-  -p, --parents     no error if existing, make parent directories as needed
-  -v, --verbose     print a message for each created directory
-  -Z                   set SELinux security context of each created directory
-                         to the default type
-      --context[=CTX]  like -Z, or if CTX is specified then set the SELinux
-                         or SMACK security context to CTX
-      --help     display this help and exit
-      --version  output version information and exit
-
-or available locally via: info '(coreutils) mkdir invocation'
-Create file      --help/meson.build
-./create_project: line 48: --help/meson.build: No such file or directory
+   Creates a directory 'PROJECT_ROOT_DIRECTORY' and populates it with some configuration files.
+   By default *never* overwrite files, use the -f extra flag to force overwriting
 #+END_EXAMPLE
 
 * Detailed example
